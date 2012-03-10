@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DailyScores.Models;
 
 namespace DailyScores.Controllers
 {
@@ -10,9 +11,12 @@ namespace DailyScores.Controllers
     {
         //
         // GET: /Home/
-        public string Index()
+        public ActionResult Index()
         {
-            return "Work in progress...";
+            var db = new DailyScoresEntities();
+            var players = db.Players.ToList();
+
+            return View(players);
         }
     }
 }

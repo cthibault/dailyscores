@@ -1,0 +1,16 @@
+﻿@model IEnumerable<DailyScores.Models.Player>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>This is the Home Page</h2>
+<p>
+    There are currently @Model.Count() Player(s):
+</p>
+<ul>
+    @foreach (var player in Model)
+    {
+        <li>@string.Format("{0} - {1}", player.PlayerId, player.Name)</li>
+    }
+</ul>
