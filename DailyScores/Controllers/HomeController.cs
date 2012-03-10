@@ -10,11 +10,9 @@ namespace DailyScores.Controllers
     {
         //
         // GET: /Home/
-
         public string Index()
         {
             return "Work in progress...";
         }
-
     }
 }
