@@ -13,6 +13,11 @@ namespace DailyScores.Controllers
     {
         //
         // GET: /Scores/
+        public string Index()
+        {
+            return "Scores.Index()";
+        }
+
         [HttpPost]
         public void EmailSubmission()
         {
