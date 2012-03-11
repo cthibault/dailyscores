@@ -10,6 +10,7 @@ namespace DailyScores.Models
     public class DailyScoresEntities : DbContext
     {
         public DbSet<Player> Players { get; set; }
+        public DbSet<EmailSubmission> EmailSubmissions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
