@@ -69,6 +69,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Binders\JsonFormModelBinder.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ScoresController.cs" />
     <Compile Include="Global.asax.cs">

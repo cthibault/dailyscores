@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using DailyScores.Binders;
 using DailyScores.Models;
 
 namespace DailyScores.Controllers
@@ -19,7 +20,7 @@ namespace DailyScores.Controllers
         }
 
         [HttpPost]
-        public void EmailSubmission()
+        public void EmailSubmission(string payload)
         {
             EmailSubmission submission = this.Request != null && this.Request.Form != null
                                              ? this.RequestEmailSubmission() : this.NoRequestEmailSubmission();
