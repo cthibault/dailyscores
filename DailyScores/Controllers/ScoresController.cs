@@ -20,6 +20,7 @@ namespace DailyScores.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public void EmailSubmission(string payload)
         {
             EmailSubmission submission = this.Request != null && this.Request.Form != null
