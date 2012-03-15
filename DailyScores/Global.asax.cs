@@ -20,7 +20,8 @@ namespace DailyScores
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.IgnoreRoute("favicon.ico");
+            routes.IgnoreRoute("{*allaspx}", new {allaspx=@".*\.aspx(/.*)?"});
+            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
             //routes.MapRoute(
             //    "EmailSubmission_POST",
