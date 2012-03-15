@@ -23,13 +23,6 @@ namespace DailyScores
             routes.IgnoreRoute("{*allaspx}", new {allaspx=@".*\.aspx(/.*)?"});
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
-            //routes.MapRoute(
-            //    "EmailSubmission_POST",
-            //    "{controller}",
-            //    new { controller = "Scores", action = "EmailSubmission" },
-            //    new { httpMethod = new HttpMethodConstraint("POST") }
-            //);
-
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters

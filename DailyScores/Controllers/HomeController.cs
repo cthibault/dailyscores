@@ -15,13 +15,18 @@ namespace DailyScores.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
-            //var db = new DailyScoresEntities();
-            //var players = db.Players.ToList();
+            var db = new DailyScoresEntities();
+            var players = db.Players.ToList();
 
-            //this.SendMailTest();
+            return View(players);
+        }
 
-            //return View(players);
-            return View(new List<Player>());
+        public ActionResult Math(double x, double y)
+        {
+            this.ViewBag.X = x;
+            this.ViewBag.Y = y;
+
+            return View();
         }
 
         //private void SendMailTest()
