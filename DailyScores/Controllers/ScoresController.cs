@@ -21,7 +21,7 @@ namespace DailyScores.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public void EmailSubmission()
+        public void EmailSubmission(EmailRequest request)
         {
             EmailSubmission submission = this.Request != null && this.Request.Form != null
                                              ? this.RequestEmailSubmission() : this.NoRequestEmailSubmission();

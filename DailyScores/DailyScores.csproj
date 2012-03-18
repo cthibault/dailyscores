@@ -79,6 +79,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DailyScoresEntities.cs" />
+    <Compile Include="Models\EmailRequest.cs" />
     <Compile Include="Models\EmailSubmission.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
