@@ -21,11 +21,15 @@ namespace DailyScores.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public void EmailSubmission(EmailRequest request)
+        public void EmailSubmission([ModelBinder(typeof(JsonFormModelBinder))] EmailRequest request)
         {
-            EmailSubmission submission = this.Request != null && this.Request.Form != null
-                                             ? this.RequestEmailSubmission() : this.NoRequestEmailSubmission();
+            //EmailSubmission submission = this.Request != null && this.Request.Form != null
+            //                                 ? this.RequestEmailSubmission() : this.NoRequestEmailSubmission();
 
+            //var repo = new DailyScoresEntities();
+            //repo.EmailSubmissions.Add(submission);
+
+            var submission = new EmailSubmission { From = "Test", To = "Test", Subject = "Test", Body = DateTime.Now.ToString() };
             var repo = new DailyScoresEntities();
             repo.EmailSubmissions.Add(submission);
             repo.SaveChanges();

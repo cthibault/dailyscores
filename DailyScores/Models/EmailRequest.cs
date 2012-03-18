@@ -7,6 +7,6 @@ namespace DailyScores.Models
 {
     public class EmailRequest
     {
-        public string subject { get; set; }
+        public string Subject { get; set; }
     }
 }
