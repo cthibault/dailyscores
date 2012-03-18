@@ -29,7 +29,13 @@ namespace DailyScores.Controllers
             //var repo = new DailyScoresEntities();
             //repo.EmailSubmissions.Add(submission);
 
-            var submission = new EmailSubmission { From = "Test", To = "Test", Subject = "Test", Body = DateTime.Now.ToString() };
+            var submission = new EmailSubmission
+                             {
+                                 From = "Test", 
+                                 To = "Test", 
+                                 Subject = request != null ? request.Subject : "Request is null", 
+                                 Body = DateTime.Now.ToString()
+                             };
             var repo = new DailyScoresEntities();
             repo.EmailSubmissions.Add(submission);
             repo.SaveChanges();
