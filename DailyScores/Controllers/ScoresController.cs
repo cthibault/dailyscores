@@ -19,9 +19,9 @@ namespace DailyScores.Controllers
             return "Scores.Index()";
         }
 
-        [HttpPost]
         [ValidateInput(false)]
-        public void EmailSubmission([ModelBinder(typeof(JsonFormModelBinder))] EmailRequest request)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public void EmailSubmission(EmailRequest request)
         {
             //EmailSubmission submission = this.Request != null && this.Request.Form != null
             //                                 ? this.RequestEmailSubmission() : this.NoRequestEmailSubmission();
