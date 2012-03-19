@@ -29,11 +29,21 @@ namespace DailyScores.Controllers
             //var repo = new DailyScoresEntities();
             //repo.EmailSubmissions.Add(submission);
 
+            string subject = "no subject";
+            if (request != null)
+            {
+                subject = "r: " + request.Subject;
+            }
+            else if (this.Request != null && this.Request.Form != null)
+            {
+                subject = this.Request.Form.AllKeys.Contains("subject") ? "R: " + this.Request.Form["subject"] : "R: no subject";
+            }
+
             var submission = new EmailSubmission
                              {
                                  From = "Test", 
                                  To = "Test", 
-                                 Subject = request != null ? request.Subject : "Request is null", 
+                                 Subject = subject, 
                                  Body = DateTime.Now.ToString()
                              };
             var repo = new DailyScoresEntities();
