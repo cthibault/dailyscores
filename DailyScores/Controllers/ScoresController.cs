@@ -14,9 +14,22 @@ namespace DailyScores.Controllers
     {
         //
         // GET: /Scores/
-        public string Index()
+        public ActionResult Index()
         {
-            return "Scores.Index()";
+            var emailSubmissions = new List<EmailSubmission>();
+
+            try
+            {
+                var db = new DailyScoresEntities();
+                emailSubmissions = db.EmailSubmissions.ToList();
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+            
+
+            return this.View(emailSubmissions);
         }
 
         [ValidateInput(false)]

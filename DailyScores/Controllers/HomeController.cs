@@ -15,8 +15,18 @@ namespace DailyScores.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
-            var db = new DailyScoresEntities();
-            var players = db.Players.ToList();
+            var players = new List<Player>();
+
+            try
+            {
+                var db = new DailyScoresEntities();
+                players = db.Players.ToList();
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+            
 
             return View(players);
         }
