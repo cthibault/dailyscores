@@ -36,51 +36,51 @@ namespace DailyScores.Controllers
 
         [ValidateInput(false)]
         [AcceptVerbs(HttpVerbs.Post)]
-        public void EmailSubmission(FormCollection request)
+        public void EmailSubmission(EmailRequest request)
         {
-            //EmailSubmission submission = this.Request != null && this.Request.Form != null
-            //                                 ? this.RequestEmailSubmission() : this.NoRequestEmailSubmission();
-
-            //var repo = new DailyScoresEntities();
-            //repo.EmailSubmissions.Add(submission);
-
-            //string subject = "no subject";
-            //if (request != null)
-            //{
-            //    subject = "r: " + request.Subject;
-            //}
-            //else if (this.Request != null && this.Request.Form != null)
-            //{
-            //    subject = this.Request.Form.AllKeys.Contains("subject") ? "R: " + this.Request.Form["subject"] : "R: no subject";
-            //}
-
-            var body = new StringBuilder();
-            body.AppendLine(DateTime.Now.ToString());
-            body.AppendLine(string.Format("request param is null: {0}", request == null));
-            body.AppendLine(string.Format("Request.Form prop is null: {0}", this.Request == null || this.Request.Form == null));
+            var builder = new StringBuilder();
 
             if (request != null)
             {
-                body.AppendLine("request collection:");
-                foreach (var key in request.AllKeys)
-                {
-                    body.AppendLine(string.Format("  {0} -- {1}", key, request[key]));
-                }
+                builder.AppendLine("Subject -> " + request.Subject);
+            }
+            else
+            {
+                builder.AppendLine("Request is null");
             }
 
-            string bodyText = body.ToString();
-            this.SendMailTest(bodyText);
-            var submission = new EmailSubmission
-                             {
-                                 From = "Test",
-                                 To = "Test",
-                                 Subject = "Test",
-                                 Body = bodyText
-                             };
+            SendMailTest(builder.ToString());
+        }
 
-            var repo = new DailyScoresEntities();
-            repo.EmailSubmissions.Add(submission);
-            repo.SaveChanges();
+        private void RecordEmailSubmission()
+        {
+            //var body = new StringBuilder();
+            //body.AppendLine(DateTime.Now.ToString());
+            //body.AppendLine(string.Format("request param is null: {0}", request == null));
+            //body.AppendLine(string.Format("Request.Form prop is null: {0}", this.Request == null || this.Request.Form == null));
+
+            //if (request != null)
+            //{
+            //    body.AppendLine("request collection:");
+            //    foreach (var key in request.AllKeys)
+            //    {
+            //        body.AppendLine(string.Format("  {0} -- {1}", key, request[key]));
+            //    }
+            //}
+
+            //string bodyText = body.ToString();
+            //this.SendMailTest(bodyText);
+            //var submission = new EmailSubmission
+            //                 {
+            //                     From = "Test",
+            //                     To = "Test",
+            //                     Subject = "Test",
+            //                     Body = bodyText
+            //                 };
+
+            //var repo = new DailyScoresEntities();
+            //repo.EmailSubmissions.Add(submission);
+            //repo.SaveChanges();
         }
 
         private EmailSubmission NoRequestEmailSubmission()
