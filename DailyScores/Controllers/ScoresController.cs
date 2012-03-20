@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using DailyScores.Binders;
 using DailyScores.Models;
+using Typesafe.Mailgun;
 
 namespace DailyScores.Controllers
 {
@@ -27,7 +29,7 @@ namespace DailyScores.Controllers
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
             }
-            
+
 
             return this.View(emailSubmissions);
         }
@@ -66,21 +68,14 @@ namespace DailyScores.Controllers
                 }
             }
 
-            //if (this.Request != null && this.Request.Form != null && this.Request.Form.AllKeys.Any())
-            //{
-            //    body.AppendLine("Request.Form prop keys:");
-            //    foreach (var key in this.Request.Form.AllKeys)
-            //    {
-            //        body.AppendLine(string.Format("  {0} : {1}", key, ));
-            //    }
-            //}
-
+            string bodyText = body.ToString();
+            this.SendMailTest(bodyText);
             var submission = new EmailSubmission
                              {
-                                 From = "Test", 
-                                 To = "Test", 
-                                 Subject = "Test", 
-                                 Body = body.ToString()
+                                 From = "Test",
+                                 To = "Test",
+                                 Subject = "Test",
+                                 Body = bodyText
                              };
 
             var repo = new DailyScoresEntities();
@@ -107,6 +102,18 @@ namespace DailyScores.Controllers
                        Subject = subject,
                        Body = strippedText
                    };
+        }
+
+        private void SendMailTest(string body)
+        {
+            var mailgunClient = new MailgunClient("dailyscores.mailgun.org", "key-6ivkuetilj5gtaripxidk04k-1lqr0v6");
+            var message = new MailMessage("scores@dailyscores.mailgun.org", "curtistbone@gmail.com")
+                          {
+                              Subject = "Email Submission Response",
+                              Body = body
+                          };
+
+            mailgunClient.SendMail(message);
         }
     }
 }
