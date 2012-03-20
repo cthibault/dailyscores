@@ -34,7 +34,7 @@ namespace DailyScores.Controllers
 
         [ValidateInput(false)]
         [AcceptVerbs(HttpVerbs.Post)]
-        public void EmailSubmission(EmailRequest request)
+        public void EmailSubmission(FormCollection request)
         {
             //EmailSubmission submission = this.Request != null && this.Request.Form != null
             //                                 ? this.RequestEmailSubmission() : this.NoRequestEmailSubmission();
@@ -57,14 +57,23 @@ namespace DailyScores.Controllers
             body.AppendLine(string.Format("request param is null: {0}", request == null));
             body.AppendLine(string.Format("Request.Form prop is null: {0}", this.Request == null || this.Request.Form == null));
 
-            if (this.Request != null && this.Request.Form != null && this.Request.Form.AllKeys.Any())
+            if (request != null)
             {
-                body.AppendLine("Request.Form prop keys:");
-                foreach (var key in this.Request.Form.AllKeys)
+                body.AppendLine("request collection:");
+                foreach (var key in request.AllKeys)
                 {
-                    body.AppendLine(string.Format("  {0}", key));
+                    body.AppendLine(string.Format("  {0} -- {1}", key, request[key]));
                 }
             }
+
+            //if (this.Request != null && this.Request.Form != null && this.Request.Form.AllKeys.Any())
+            //{
+            //    body.AppendLine("Request.Form prop keys:");
+            //    foreach (var key in this.Request.Form.AllKeys)
+            //    {
+            //        body.AppendLine(string.Format("  {0} : {1}", key, ));
+            //    }
+            //}
 
             var submission = new EmailSubmission
                              {
