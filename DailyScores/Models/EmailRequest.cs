@@ -10,6 +10,6 @@ namespace DailyScores.Models
     {
         public string Subject { get; set; }
         public string Sender { get; set; }
-        public string Body_Plain { get; set; }
+        public string BodyPlain { get; set; }
     }
 }
