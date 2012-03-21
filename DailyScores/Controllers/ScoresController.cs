@@ -42,7 +42,9 @@ namespace DailyScores.Controllers
 
             if (request != null)
             {
-                builder.AppendLine("Subject -> " + request.Subject);
+                builder.AppendLine("Subject  =>  " + request.Subject);
+                builder.AppendLine("Sender  =>  " + request.Sender);
+                builder.AppendLine("Body  =>  " + request.Body_Plain);
             }
             else
             {

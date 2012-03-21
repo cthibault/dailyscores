@@ -8,7 +8,8 @@ namespace DailyScores.Models
 {
     public class EmailRequest
     {
-        [AllowHtml]
         public string Subject { get; set; }
+        public string Sender { get; set; }
+        public string Body_Plain { get; set; }
     }
 }
