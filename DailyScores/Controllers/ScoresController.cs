@@ -44,7 +44,7 @@ namespace DailyScores.Controllers
             {
                 builder.AppendLine("Subject  =>  " + request.Subject);
                 builder.AppendLine("Sender  =>  " + request.Sender);
-                builder.AppendLine("Body  =>  " + request.BodyPlain);
+                builder.AppendLine("Body  =>  " + request.Body);
             }
             else
             {

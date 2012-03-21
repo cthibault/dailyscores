@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using DailyScores.Binders;
 using DailyScores.Models;
 
 namespace DailyScores
@@ -38,7 +39,7 @@ namespace DailyScores
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            //ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
+            ModelBinders.Binders.Add(typeof(EmailRequest), new EmailRequestModelBinder());
         }
     }
 }
