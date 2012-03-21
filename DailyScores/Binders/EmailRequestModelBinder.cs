@@ -10,9 +10,9 @@ namespace DailyScores.Binders
         {
             var request = new EmailRequest();
             
-            request.Sender = bindingContext.ValueProvider.GetValue("sender").ToString();
-            request.Subject = bindingContext.ValueProvider.GetValue("subject").ToString();
-            request.Body = bindingContext.ValueProvider.GetValue("body-plain").ToString();
+            request.Sender = bindingContext.ValueProvider.GetValue("sender").AttemptedValue;
+            request.Subject = bindingContext.ValueProvider.GetValue("subject").AttemptedValue;
+            request.Body = bindingContext.ValueProvider.GetValue("body-plain").AttemptedValue;
 
             return request;
         }
