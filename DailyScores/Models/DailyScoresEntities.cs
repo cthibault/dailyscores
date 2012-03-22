@@ -9,8 +9,13 @@ namespace DailyScores.Models
 {
     public class DailyScoresEntities : DbContext
     {
-        public DbSet<Player> Players { get; set; }
         public DbSet<EmailSubmission> EmailSubmissions { get; set; }
+
+        public DbSet<Player> Players { get; set; }
+        public DbSet<EmailAddress> EmailAddresses { get; set; }
+
+        public DbSet<HidatoScore> HidatoScores { get; set; }
+        public DbSet<JumbleScore> JumbleScores { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

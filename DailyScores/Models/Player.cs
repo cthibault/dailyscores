@@ -9,5 +9,6 @@ namespace DailyScores.Models
     {
         public int PlayerId { get; set; }
         public string Name { get; set; }
+        public List<EmailAddress> EmailAddresses { get; set; } 
     }
 }

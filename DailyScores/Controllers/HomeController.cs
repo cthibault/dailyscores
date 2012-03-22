@@ -30,25 +30,5 @@ namespace DailyScores.Controllers
 
             return View(players);
         }
-
-        public ActionResult Math(double x, double y)
-        {
-            this.ViewBag.X = x;
-            this.ViewBag.Y = y;
-
-            return View();
-        }
-
-        //private void SendMailTest()
-        //{
-        //    var mailgunClient = new MailgunClient("dailyscores.mailgun.org", "key-6ivkuetilj5gtaripxidk04k-1lqr0v6");
-        //    var message = new MailMessage("submit@dailyscores.mailgun.org", "dailyscores_ml@dailyscores.mailgun.org")
-        //                  {
-        //                      Subject = "Test Subject",
-        //                      Body = "Test message for the email body"
-        //                  };
-
-        //    mailgunClient.SendMail(message);
-        //}
     }
 }

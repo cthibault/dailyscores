@@ -43,10 +43,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HidatoParserTests.cs" />
+    <Compile Include="JumbleParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DailyScores\DailyScores.csproj">
+      <Project>{CDED26B8-9A4C-4529-930D-DB8C75939551}</Project>
+      <Name>DailyScores</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

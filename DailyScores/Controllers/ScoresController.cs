@@ -14,6 +14,24 @@ namespace DailyScores.Controllers
 {
     public class ScoresController : Controller
     {
+        #region Private Properties
+
+        private DailyScoresEntities _repository;
+        private DailyScoresEntities Repository
+        {
+            get
+            {
+                if (this._repository == null)
+                {
+                    this._repository = new DailyScoresEntities();
+                }
+
+                return this._repository;
+            }
+        }
+
+        #endregion Private Properties
+
         //
         // GET: /Scores/
         public ActionResult Index()
@@ -22,8 +40,7 @@ namespace DailyScores.Controllers
 
             try
             {
-                var db = new DailyScoresEntities();
-                emailSubmissions = db.EmailSubmissions.ToList();
+                emailSubmissions = this.Repository.EmailSubmissions.ToList();
             }
             catch (Exception ex)
             {
@@ -38,72 +55,21 @@ namespace DailyScores.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public void EmailSubmission(EmailRequest request)
         {
-            var builder = new StringBuilder();
-
-            if (request != null)
-            {
-                builder.AppendLine("Subject  =>  " + request.Subject);
-                builder.AppendLine("Sender  =>  " + request.Sender);
-                builder.AppendLine("Body  =>  " + request.Body);
-            }
-            else
-            {
-                builder.AppendLine("Request is null");
-            }
-
-            SendMailTest(builder.ToString());
+            this.RecordEmailSubmission(request);
         }
 
-        private void RecordEmailSubmission()
+        private void RecordEmailSubmission(EmailRequest request)
         {
-            //var body = new StringBuilder();
-            //body.AppendLine(DateTime.Now.ToString());
-            //body.AppendLine(string.Format("request param is null: {0}", request == null));
-            //body.AppendLine(string.Format("Request.Form prop is null: {0}", this.Request == null || this.Request.Form == null));
+            var submission = new EmailSubmission
+                             {
+                                 From = request.Sender,
+                                 To = request.Recipient,
+                                 Subject = request.Subject,
+                                 Body = request.Body
+                             };
 
-            //if (request != null)
-            //{
-            //    body.AppendLine("request collection:");
-            //    foreach (var key in request.AllKeys)
-            //    {
-            //        body.AppendLine(string.Format("  {0} -- {1}", key, request[key]));
-            //    }
-            //}
-
-            //string bodyText = body.ToString();
-            //this.SendMailTest(bodyText);
-            //var submission = new EmailSubmission
-            //                 {
-            //                     From = "Test",
-            //                     To = "Test",
-            //                     Subject = "Test",
-            //                     Body = bodyText
-            //                 };
-
-            //var repo = new DailyScoresEntities();
-            //repo.EmailSubmissions.Add(submission);
-            //repo.SaveChanges();
-        }
-
-        private EmailSubmission NoRequestEmailSubmission()
-        {
-            return new EmailSubmission() { Body = "No Request" };
-        }
-
-        private EmailSubmission RequestEmailSubmission()
-        {
-            var from = Request.Form.AllKeys.Contains("From") ? Request.Form["From"] : string.Empty;
-            var to = Request.Form.AllKeys.Contains("To") ? Request.Form["To"] : string.Empty;
-            var subject = Request.Form.AllKeys.Contains("subject") ? Request.Form["subject"] : string.Empty;
-            var strippedText = Request.Form.AllKeys.Contains("stripped-text") ? Request.Form["stripped-text"] : string.Empty;
-
-            return new EmailSubmission
-                   {
-                       To = to,
-                       From = from,
-                       Subject = subject,
-                       Body = strippedText
-                   };
+            this.Repository.EmailSubmissions.Add(submission);
+            this.Repository.SaveChanges();
         }
 
         private void SendMailTest(string body)
