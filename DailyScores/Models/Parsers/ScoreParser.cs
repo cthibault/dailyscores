@@ -1,41 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace DailyScores.Models.Parsers
 {
-    public abstract class ScoreParser<T> where T : Score, new()
+    public static class ScoreParser
     {
-        public abstract Response<T> Parse(string text);
-
-        protected virtual int? GetInteger(string input)
+        public static Response<TScore> Parse<TParser, TScore>(string input) 
+            where TParser : BaseScoreParser<TScore>, new()
+            where TScore : Score, new()
         {
-            int value = 0;
+            var parser = new TParser();
+            var response = new Response<TScore>(false);
 
-            if (int.TryParse(input, out value))
+            var extractedInput = ExtractInput<TParser, TScore>(parser, input).ToList();
+
+            if (!extractedInput.Any())
             {
-                return value;
+                response.ErrorMessages.Add("No scores to parse");
+            }
+            else if (extractedInput.Count > 1)
+            {
+                response.ErrorMessages.Add("Too many scores present to parse");
+            }
+            else
+            {
+                response = parser.Parse(extractedInput.First());
             }
 
-            return null;
+            return response;
         }
 
-        protected virtual int? GetTimeInSeconds(string input)
+        private static IEnumerable<string> ExtractInput<TParser, TScore>(TParser parser, string input)
+            where TParser : BaseScoreParser<TScore>
+            where TScore : Score
         {
-            var timeparts = input.Split(':').Select(this.GetInteger).ToList();
-
-            while (timeparts.Count < 4)
-            {
-                timeparts.Insert(0, 0);
-            }
-
-            if (timeparts.All(x => x.HasValue))
-            {
-                var timespan = new TimeSpan(timeparts[0].Value, timeparts[1].Value, timeparts[2].Value, timeparts[3].Value);
-                return (int) timespan.TotalSeconds;
-            }
-
-            return null;
+            var splitResults = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            return splitResults.Where(parser.ContainsHeader);
         }
     }
 }

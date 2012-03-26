@@ -79,18 +79,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\DailyScoresEntities.cs" />
-    <Compile Include="Models\EmailAddress.cs" />
-    <Compile Include="Models\EmailRequest.cs" />
-    <Compile Include="Models\EmailSubmission.cs" />
-    <Compile Include="Models\HidatoScore.cs" />
-    <Compile Include="Models\JumbleScore.cs" />
+    <Compile Include="Models\Entities\BaseEntity.cs" />
+    <Compile Include="Models\Contexts\DailyScoresEntities.cs" />
+    <Compile Include="Models\Entities\EmailAddress.cs" />
+    <Compile Include="Models\Parsers\BaseScoreParser.cs" />
+    <Compile Include="Models\Requests\EmailRequest.cs" />
+    <Compile Include="Models\Entities\EmailSubmission.cs" />
+    <Compile Include="Models\Entities\HidatoScore.cs" />
+    <Compile Include="Models\Entities\JumbleScore.cs" />
     <Compile Include="Models\Parsers\HidatoScoreParser.cs" />
     <Compile Include="Models\Parsers\JumbleScoreParser.cs" />
     <Compile Include="Models\Parsers\ScoreParser.cs" />
-    <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\Entities\Player.cs" />
     <Compile Include="Models\Response.cs" />
-    <Compile Include="Models\Score.cs" />
+    <Compile Include="Models\Entities\Score.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 using System;
 using System.Web.Mvc;
 using DailyScores.Models;
+using DailyScores.Models.Requests;
 
 namespace DailyScores.Binders
 {

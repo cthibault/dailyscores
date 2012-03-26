@@ -4,16 +4,22 @@ using System.Linq;
 
 namespace DailyScores.Models.Parsers
 {
-    public class JumbleScoreParser : ScoreParser<JumbleScore>
+    public class JumbleScoreParser : BaseScoreParser<JumbleScore>
     {
-        public override Response<JumbleScore> Parse(string text)
+        private readonly string _header = "JUMBLE";
+        public override string Header
+        {
+            get { return this._header; }
+        }
+
+        public override Response<JumbleScore> Parse(string input)
         {
             var response = new Response<JumbleScore>(false);
 
-            if (text.ToUpper().StartsWith("JUMBLE"))
+            if (this.ContainsHeader(input))
             {
                 //Jumble: 1234 (5x, 4x, 3x, 2x, 1x) 2:34
-                var textParts = text.Split(new string[] { " ", "(", ",", ")" }, StringSplitOptions.RemoveEmptyEntries);
+                var textParts = input.Split(new string[] { " ", "(", ",", ")" }, StringSplitOptions.RemoveEmptyEntries);
 
                 try
                 {

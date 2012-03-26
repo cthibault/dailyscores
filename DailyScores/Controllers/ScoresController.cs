@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DailyScores.Binders;
 using DailyScores.Models;
+using DailyScores.Models.Requests;
 using Typesafe.Mailgun;
 
 namespace DailyScores.Controllers
@@ -56,6 +57,16 @@ namespace DailyScores.Controllers
         public void EmailSubmission(EmailRequest request)
         {
             this.RecordEmailSubmission(request);
+
+            //var emailAddress = this.Repository.EmailAddresses.SingleOrDefault(e => e.Address == request.Sender);
+
+            // 1. Record Email
+            // 2. Find Sender Party
+            // 3. Parse Hidato Score
+            // 4. Save Hidato Score
+            // 5. Parse Jumble Score
+            // 6. Save Jumble Score
+
         }
 
         private void RecordEmailSubmission(EmailRequest request)
@@ -70,6 +81,8 @@ namespace DailyScores.Controllers
 
             this.Repository.EmailSubmissions.Add(submission);
             this.Repository.SaveChanges();
+
+            this.SendMailTest(submission.Body);
         }
 
         private void SendMailTest(string body)

@@ -4,16 +4,22 @@ using System.Linq;
 
 namespace DailyScores.Models.Parsers
 {
-    public class HidatoScoreParser : ScoreParser<HidatoScore>
+    public class HidatoScoreParser : BaseScoreParser<HidatoScore>
     {
-        public override Response<HidatoScore> Parse(string text)
+        private readonly string _header = "HIDATO";
+        public override string Header
+        {
+            get { return this._header; }
+        }
+
+        public override Response<HidatoScore> Parse(string input)
         {
             var response = new Response<HidatoScore>(false);
 
-            if (text.ToUpper().StartsWith("HIDATO"))
+            if (this.ContainsHeader(input))
             {
                 //Hidato: 26360 (2100, 10000, 1080, 2x) 2:00
-                var textParts = text.Split(new string[] { " ", "(", ",", ")" }, StringSplitOptions.RemoveEmptyEntries);
+                var textParts = input.Split(new string[] { " ", "(", ",", ")" }, StringSplitOptions.RemoveEmptyEntries);
 
                 try
                 {
