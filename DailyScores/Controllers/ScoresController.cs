@@ -35,7 +35,7 @@ namespace DailyScores.Controllers
 
         //
         // GET: /Scores/
-        public ActionResult Index()
+        public ActionResult EmailSubmission()
         {
             var emailSubmissions = new List<EmailSubmission>();
 
