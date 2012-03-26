@@ -1,6 +1,6 @@
 namespace DailyScores.Models
 {
-    public class EmailSubmission
+    public class EmailSubmission : BaseEntity
     {
         public long EmailSubmissionId { get; set; }
         public string To { get; set; }
