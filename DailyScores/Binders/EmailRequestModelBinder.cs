@@ -9,12 +9,18 @@ namespace DailyScores.Binders
     {
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            var request = new EmailRequest();
-            
-            request.Recipient = bindingContext.ValueProvider.GetValue("recipient").AttemptedValue;
-            request.Sender = bindingContext.ValueProvider.GetValue("sender").AttemptedValue;
-            request.Subject = bindingContext.ValueProvider.GetValue("subject").AttemptedValue;
-            request.Body = bindingContext.ValueProvider.GetValue("body-plain").AttemptedValue;
+            var recipient = bindingContext.ValueProvider.GetValue("recipient");
+            var sender = bindingContext.ValueProvider.GetValue("sender");
+            var subject = bindingContext.ValueProvider.GetValue("subject");
+            var body = bindingContext.ValueProvider.GetValue("body-plain");
+
+            var request = new EmailRequest
+                          {
+                              Recipient = recipient != null ? recipient.AttemptedValue : string.Empty,
+                              Sender = sender != null ? sender.AttemptedValue : string.Empty,
+                              Subject = subject != null ? subject.AttemptedValue : string.Empty,
+                              Body = body != null ? body.AttemptedValue : string.Empty,
+                          };
 
             return request;
         }

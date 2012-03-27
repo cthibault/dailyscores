@@ -48,7 +48,10 @@ namespace DailyScores.Controllers
 
             try
             {
-                emailSubmissions = this.Repository.EmailSubmissions.ToList();
+                emailSubmissions = this.Repository.EmailSubmissions
+                    .OrderByDescending(e => e.EmailSubmissionId)
+                    .Take(10)
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -63,14 +66,14 @@ namespace DailyScores.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public void EmailSubmission(EmailRequest request)
         {
+            this.RecordEmailSubmission(request);
+
             var emailAddress = this.Repository.EmailAddresses.SingleOrDefault(e => e.Address == request.Sender);
 
             if (emailAddress != null && emailAddress.Player != null)
             {
                 this.ParseAndSaveScores(emailAddress.Player, request);
             }
-
-            this.RecordEmailSubmission(request);
         }
 
         #region Private Methods
