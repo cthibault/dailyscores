@@ -34,8 +34,14 @@ namespace DailyScores.Controllers
 
         #endregion Private Properties
 
-        //
         // GET: /Scores/
+        public ActionResult Index()
+        {
+            return this.View();
+        }
+
+
+        // GET: /Scores/EmailSubmissions
         public ActionResult EmailSubmissions()
         {
             var emailSubmissions = new List<EmailSubmission>();
@@ -61,7 +67,7 @@ namespace DailyScores.Controllers
 
             if (emailAddress != null && emailAddress.Player != null)
             {
-                this.ParseAndSaveScores(emailAddress.Player, request.Body);
+                this.ParseAndSaveScores(emailAddress.Player, request);
             }
 
             this.RecordEmailSubmission(request);
@@ -69,8 +75,12 @@ namespace DailyScores.Controllers
 
         #region Private Methods
 
-        private void ParseAndSaveScores(Player player, string bodyText)
+        private void ParseAndSaveScores(Player player, EmailRequest email)
         {
+            Response<HidatoScore> hidatoResponse = null;
+            Response<JumbleScore> jumbleResponse = null;
+
+            var bodyText = email.Body;
             var dateReponse = new DateParser().Parse(bodyText);
             bool anyChanges = false;
 
@@ -79,7 +89,7 @@ namespace DailyScores.Controllers
                 bool hasHidatoEntry = this.Repository.HidatoScores.Any(s => s.Date == dateReponse.Value);
                 if (!hasHidatoEntry)
                 {
-                    var hidatoResponse = new HidatoScoreParser().Parse(bodyText);
+                    hidatoResponse = new HidatoScoreParser().Parse(bodyText);
                     if (hidatoResponse.IsSuccess)
                     {
                         hidatoResponse.Value.PlayerId = player.PlayerId;
@@ -91,7 +101,7 @@ namespace DailyScores.Controllers
                 bool hasJumbleEntry = this.Repository.JumbleScores.Any(s => s.Date == dateReponse.Value);
                 if (!hasJumbleEntry)
                 {
-                    var jumbleResponse = new JumbleScoreParser().Parse(bodyText);
+                    jumbleResponse = new JumbleScoreParser().Parse(bodyText);
                     if (jumbleResponse.IsSuccess)
                     {
                         jumbleResponse.Value.PlayerId = player.PlayerId;
@@ -104,7 +114,53 @@ namespace DailyScores.Controllers
                 {
                     this.Repository.SaveChanges();
                 }
+
+                this.Validate(hidatoResponse, jumbleResponse, email);
             }
+        }
+
+        private void Validate(Response<HidatoScore> hidatoResponse, Response<JumbleScore> jumbleResponse, EmailRequest email)
+        {
+            var builder = new StringBuilder();
+
+            if (hidatoResponse != null && !hidatoResponse.IsSuccess)
+            {
+                builder.AppendLine(this.BuildErrorReport(hidatoResponse));
+            }
+
+            if (jumbleResponse != null && !jumbleResponse.IsSuccess)
+            {
+                builder.AppendLine(this.BuildErrorReport(jumbleResponse));
+            }
+
+            var errorReport = builder.ToString();
+
+            if (!string.IsNullOrEmpty(errorReport))
+            {
+                this.EmailErrorReport(errorReport, email);
+            }
+        }
+
+        private string BuildErrorReport<T>(Response<T> response)
+        {
+            var builder = new StringBuilder();
+
+            if (response.ErrorMessages.Any())
+            {
+                builder.AppendLine("ERROR MESSAGES:");
+                response.ErrorMessages.ForEach(error => builder.AppendLine("  " + error));
+            }
+            if (response.Exceptions.Any())
+            {
+                builder.AppendLine("EXCEPTIONS");
+                response.Exceptions.ForEach(ex =>
+                                                  {
+                                                      builder.AppendLine(string.Format("  Message: {0}\r\n  Stack: {1}", ex.Message, ex.StackTrace));
+                                                      Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                                  });
+            }
+
+            return builder.ToString();
         }
 
         private void RecordEmailSubmission(EmailRequest request)
@@ -121,13 +177,13 @@ namespace DailyScores.Controllers
             this.Repository.SaveChanges();
         }
 
-        private void SendMailTest(string body)
+        private void EmailErrorReport(string errorMessages, EmailRequest email)
         {
             var mailgunClient = new MailgunClient("dailyscores.mailgun.org", "key-6ivkuetilj5gtaripxidk04k-1lqr0v6");
             var message = new MailMessage("scores@dailyscores.mailgun.org", "curtistbone@gmail.com")
                           {
-                              Subject = "Email Submission Response",
-                              Body = body
+                              Subject = "Email Submission/Parse Error",
+                              Body = string.Format("FROM: {0}\r\n\r\nBODY:\r\n{1}\r\n\r\nERRORS\r\n{2}", email.Sender, email.Body, errorMessages)
                           };
 
             mailgunClient.SendMail(message);

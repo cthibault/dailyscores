@@ -6,7 +6,7 @@ namespace DailyScores.Models
     {
         protected BaseEntity()
         {
-            ModifiedDtm = DateTime.Now;
+            ModifiedDtm = DateTime.Now.Date;
         }
 
         public DateTime ModifiedDtm { get; set; }        
