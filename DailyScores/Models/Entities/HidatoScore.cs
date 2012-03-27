@@ -14,7 +14,7 @@ namespace DailyScores.Models
         public override string ToString()
         {
             return string.Format("Hidato: {0} ({1}, {2}, {3}, {4}x) {5}",
-                                 this.TotalScore, this.TileScore, this.PerfectBonus, this.TimeBonus, this.AdvancedMultiplier, this.TimeInSeconds);
+                                 this.TotalScore, this.TileScore, this.PerfectBonus, this.TimeBonus, this.AdvancedMultiplier, this.DisplayTime);
         }
     }
 }

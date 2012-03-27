@@ -37,6 +37,38 @@ namespace DailyScores.Controllers
         // GET: /Scores/
         public ActionResult Index()
         {
+            var hidatoScores = new List<HidatoScore>();
+            var jumbleScores = new List<JumbleScore>();
+
+            try
+            {
+                hidatoScores = this.Repository.HidatoScores
+                    .Include("Player")
+                    .OrderByDescending(s => s.HidatoId)
+                    .Take(10)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+
+            try
+            {
+                jumbleScores = this.Repository.JumbleScores
+                    .Include("Player")
+                    .OrderByDescending(s => s.JumbleId)
+                    .Take(10)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+
+            this.ViewBag.HidatoScores = hidatoScores;
+            this.ViewBag.JumbleScores = jumbleScores;
+
             return this.View();
         }
 

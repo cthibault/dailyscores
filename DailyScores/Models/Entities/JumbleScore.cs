@@ -19,7 +19,7 @@ namespace DailyScores.Models
         {
             return string.Format("Jumble: {0} ({1}x, {2}x, {3}x, {4}x, {5}x) {6}",
                                  this.TotalScore, this.WordOneMultiplier, this.WordTwoMultiplier, this.WordThreeMultiplier, 
-                                 this.WordFourMultiplier, this.WordFiveMultiplier, this.TimeInSeconds);
+                                 this.WordFourMultiplier, this.WordFiveMultiplier, this.DisplayTime);
         }
     }
 }

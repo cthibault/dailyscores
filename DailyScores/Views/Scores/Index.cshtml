@@ -2,4 +2,140 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<p>
+    <h2>Hidato Scores</h2>
+    <table>
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Player
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Total
+        </th>
+        <th>
+            Tile Score
+        </th>
+        <th>
+            Perfect Bonus
+        </th>
+        <th>
+            Time Bonus
+        </th>
+        <th>
+            Multiplier
+        </th>
+        <th>
+            Time
+        </th>
+    </tr>
+    @foreach (var score in ViewBag.HidatoScores) {
+        <tr>
+            <td>
+                @score.HidatoId
+            </td>
+            <td>
+                @score.Player.Name
+            </td>
+            <td>
+                @score.DisplayDate
+            </td>
+            <td>
+                @score.TotalScore
+            </td>
+            <td>
+                @score.TileScore
+            </td>
+            <td>
+                @score.PerfectBonus
+            </td>
+            <td>
+                @score.TimeBonus
+            </td>
+            <td>
+                @score.AdvancedMultiplier
+            </td>
+            <td>
+                @score.DisplayTime
+            </td>
+        </tr>
+    }
+</table>
+</p>
+
+<p>
+    <h2>Jumble Scores</h2>
+    <table>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Player
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                Word 1
+            </th>
+            <th>
+                Word 2
+            </th>
+            <th>
+                Word 3
+            </th>
+            <th>
+                Word 4
+            </th>
+            <th>
+                Word 5
+            </th>
+            <th>
+                Time
+            </th>
+        </tr>
+        @foreach (var score in ViewBag.JumbleScores) {
+            <tr>
+                <td>
+                    @score.JumbleId
+                </td>
+                <td>
+                    @score.Player.Name
+                </td>
+                <td>
+                    @score.DisplayDate
+                </td>
+                <td>
+                    @score.TotalScore
+                </td>
+                <td>
+                    @score.WordOneMultiplier
+                </td>
+                <td>
+                    @score.WordTwoMultiplier
+                </td>
+                <td>
+                    @score.WordThreeMultiplier
+                </td>
+                <td>
+                    @score.WordFourMultiplier
+                </td>
+                <td>
+                    @score.WordFiveMultiplier
+                </td>
+                <td>
+                    @score.DisplayTime
+                </td>
+            </tr>
+        }
+    </table>
+</p>
