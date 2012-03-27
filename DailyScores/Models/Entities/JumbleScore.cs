@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -6,7 +7,8 @@ namespace DailyScores.Models
 {
     public class JumbleScore : Score
     {
-        public int JumbleScoreId { get; set; }
+        [Key]
+        public int JumbleId { get; set; }
         public int WordOneMultiplier { get; set; }
         public int WordTwoMultiplier { get; set; }
         public int WordThreeMultiplier { get; set; }

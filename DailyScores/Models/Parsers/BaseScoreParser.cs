@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DailyScores.Models.Parsers
 {
-    public abstract class BaseScoreParser<T> where T : Score
+    public abstract class BaseScoreParser<T>
     {
         public abstract string Header { get; }
 
@@ -13,6 +13,14 @@ namespace DailyScores.Models.Parsers
         public virtual bool ContainsHeader(string input)
         {
             return input.ToUpper().StartsWith(this.Header);
+        }
+
+        protected virtual string ExtractInput(string input)
+        {
+            var split = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var results = split.Where(this.ContainsHeader);
+
+            return results.Count() == 1 ? results.First() : string.Empty;
         }
 
         protected virtual int? GetInteger(string input)

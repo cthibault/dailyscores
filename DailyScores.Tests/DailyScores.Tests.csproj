@@ -47,7 +47,6 @@
     <Compile Include="Controllers\ScoresControllerTests.cs" />
     <Compile Include="ParserTests\HidatoParserTests.cs" />
     <Compile Include="ParserTests\JumbleParserTests.cs" />
-    <Compile Include="ParserTests\ScoreParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

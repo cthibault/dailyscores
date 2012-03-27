@@ -50,7 +50,8 @@ namespace DailyScores.Tests
                                     WordThreeMultiplier = 3,
                                     WordFourMultiplier = 2,
                                     WordFiveMultiplier = 1,
-                                    TimeInSeconds = 154
+                                    TimeInSeconds = 154,
+                                    Date = DateTime.Now.Date
                                 };
 
             Assert.True(output.IsSuccess);
@@ -64,6 +65,7 @@ namespace DailyScores.Tests
             Assert.Equal(expectedValue.WordFourMultiplier, output.Value.WordFourMultiplier);
             Assert.Equal(expectedValue.WordFiveMultiplier, output.Value.WordFiveMultiplier);
             Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
+            Assert.Equal(expectedValue.Date, output.Value.Date);
         }
 
         [Fact]
@@ -82,7 +84,8 @@ namespace DailyScores.Tests
                                     WordThreeMultiplier = 3,
                                     WordFourMultiplier = 2,
                                     WordFiveMultiplier = 1,
-                                    TimeInSeconds = 154
+                                    TimeInSeconds = 154,
+                                    Date = DateTime.Now.Date
                                 };
 
             Assert.True(output.IsSuccess);
@@ -96,6 +99,11 @@ namespace DailyScores.Tests
             Assert.Equal(expectedValue.WordFourMultiplier, output.Value.WordFourMultiplier);
             Assert.Equal(expectedValue.WordFiveMultiplier, output.Value.WordFiveMultiplier);
             Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
+            Assert.Equal(expectedValue.Date, output.Value.Date);
         }
+
+        //TODO: More Test
+        //MultiLine input
+        //With and Without Dates
     }
 }

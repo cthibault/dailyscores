@@ -83,13 +83,13 @@
     <Compile Include="Models\Contexts\DailyScoresEntities.cs" />
     <Compile Include="Models\Entities\EmailAddress.cs" />
     <Compile Include="Models\Parsers\BaseScoreParser.cs" />
+    <Compile Include="Models\Parsers\DateParser.cs" />
     <Compile Include="Models\Requests\EmailRequest.cs" />
     <Compile Include="Models\Entities\EmailSubmission.cs" />
     <Compile Include="Models\Entities\HidatoScore.cs" />
     <Compile Include="Models\Entities\JumbleScore.cs" />
     <Compile Include="Models\Parsers\HidatoScoreParser.cs" />
     <Compile Include="Models\Parsers\JumbleScoreParser.cs" />
-    <Compile Include="Models\Parsers\ScoreParser.cs" />
     <Compile Include="Models\Entities\Player.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\Entities\Score.cs" />
@@ -169,7 +169,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Scores\EmailSubmission.cshtml" />
+    <Content Include="Views\Scores\EmailSubmissions.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

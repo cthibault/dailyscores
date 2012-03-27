@@ -48,7 +48,8 @@ namespace DailyScores.Tests
                                     PerfectBonus = 10000,
                                     TimeBonus = 1080,
                                     AdvancedMultiplier = 2,
-                                    TimeInSeconds = 120
+                                    TimeInSeconds = 120,
+                                    Date = DateTime.Now.Date
                                 };
 
             Assert.True(output.IsSuccess);
@@ -61,6 +62,7 @@ namespace DailyScores.Tests
             Assert.Equal(expectedValue.TimeBonus, output.Value.TimeBonus);
             Assert.Equal(expectedValue.AdvancedMultiplier, output.Value.AdvancedMultiplier);
             Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
+            Assert.Equal(expectedValue.Date, output.Value.Date);
         }
 
         [Fact]
@@ -78,7 +80,8 @@ namespace DailyScores.Tests
                                     PerfectBonus = 10000,
                                     TimeBonus = 1080,
                                     AdvancedMultiplier = 2,
-                                    TimeInSeconds = 120
+                                    TimeInSeconds = 120,
+                                    Date = DateTime.Now.Date
                                 };
 
             Assert.True(output.IsSuccess);
@@ -91,6 +94,11 @@ namespace DailyScores.Tests
             Assert.Equal(expectedValue.TimeBonus, output.Value.TimeBonus);
             Assert.Equal(expectedValue.AdvancedMultiplier, output.Value.AdvancedMultiplier);
             Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
+            Assert.Equal(expectedValue.Date, output.Value.Date);
         }
+
+        //TODO: More Test
+        //MultiLine input
+        //With and Without Dates
     }
 }

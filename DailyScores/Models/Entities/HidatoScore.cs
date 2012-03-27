@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DailyScores.Models
 {
     public class HidatoScore : Score
     {
-        public int HidatoScoreId { get; set; }
+        [Key]
+        public int HidatoId { get; set; }
         public int TileScore { get; set; }
         public int PerfectBonus { get; set; }
         public int TimeBonus { get; set; }

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DailyScores.Binders;
 using DailyScores.Models;
+using DailyScores.Models.Parsers;
 using DailyScores.Models.Requests;
 using Typesafe.Mailgun;
 
@@ -35,7 +36,7 @@ namespace DailyScores.Controllers
 
         //
         // GET: /Scores/
-        public ActionResult EmailSubmission()
+        public ActionResult EmailSubmissions()
         {
             var emailSubmissions = new List<EmailSubmission>();
 
@@ -56,17 +57,54 @@ namespace DailyScores.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public void EmailSubmission(EmailRequest request)
         {
+            var emailAddress = this.Repository.EmailAddresses.SingleOrDefault(e => e.Address == request.Sender);
+
+            if (emailAddress != null && emailAddress.Player != null)
+            {
+                this.ParseAndSaveScores(emailAddress.Player, request.Body);
+            }
+
             this.RecordEmailSubmission(request);
+        }
 
-            //var emailAddress = this.Repository.EmailAddresses.SingleOrDefault(e => e.Address == request.Sender);
+        #region Private Methods
 
-            // 1. Record Email
-            // 2. Find Sender Party
-            // 3. Parse Hidato Score
-            // 4. Save Hidato Score
-            // 5. Parse Jumble Score
-            // 6. Save Jumble Score
+        private void ParseAndSaveScores(Player player, string bodyText)
+        {
+            var dateReponse = new DateParser().Parse(bodyText);
+            bool anyChanges = false;
 
+            if (dateReponse.IsSuccess)
+            {
+                bool hasHidatoEntry = this.Repository.HidatoScores.Any(s => s.Date == dateReponse.Value);
+                if (!hasHidatoEntry)
+                {
+                    var hidatoResponse = new HidatoScoreParser().Parse(bodyText);
+                    if (hidatoResponse.IsSuccess)
+                    {
+                        hidatoResponse.Value.PlayerId = player.PlayerId;
+                        this.Repository.HidatoScores.Add(hidatoResponse.Value);
+                        anyChanges = true;
+                    }
+                }
+
+                bool hasJumbleEntry = this.Repository.JumbleScores.Any(s => s.Date == dateReponse.Value);
+                if (!hasJumbleEntry)
+                {
+                    var jumbleResponse = new JumbleScoreParser().Parse(bodyText);
+                    if (jumbleResponse.IsSuccess)
+                    {
+                        jumbleResponse.Value.PlayerId = player.PlayerId;
+                        this.Repository.JumbleScores.Add(jumbleResponse.Value);
+                        anyChanges = true;
+                    }
+                }
+
+                if (anyChanges)
+                {
+                    this.Repository.SaveChanges();
+                }
+            }
         }
 
         private void RecordEmailSubmission(EmailRequest request)
@@ -81,8 +119,6 @@ namespace DailyScores.Controllers
 
             this.Repository.EmailSubmissions.Add(submission);
             this.Repository.SaveChanges();
-
-            this.SendMailTest(submission.Body);
         }
 
         private void SendMailTest(string body)
@@ -96,5 +132,7 @@ namespace DailyScores.Controllers
 
             mailgunClient.SendMail(message);
         }
+
+        #endregion Private Methods
     }
 }
