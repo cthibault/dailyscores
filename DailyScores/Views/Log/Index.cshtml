@@ -1,0 +1,26 @@
+﻿@model IEnumerable<DailyScores.Models.LogGroup>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Recent Log Entries</h2>
+
+<table>
+    <tr>
+        <th>Group Id</th>
+        <th>Entry Id</th>
+        <th>Description</th>
+    </tr>
+@foreach (var group in Model)
+{
+    foreach (var entry in group.LogEntries)
+    {
+        <tr>
+            <td>@group.GroupId</td>
+            <td>@entry.EntryId</td>
+            <td>@entry.Description</td>
+        </tr>
+    }
+}
+</table>
