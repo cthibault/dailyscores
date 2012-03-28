@@ -16,24 +16,6 @@ namespace DailyScores.Controllers
 {
     public class ScoresController : Controller
     {
-        #region Private Properties
-
-        private DailyScoresEntities _repository;
-        private DailyScoresEntities Repository
-        {
-            get
-            {
-                if (this._repository == null)
-                {
-                    this._repository = new DailyScoresEntities();
-                }
-
-                return this._repository;
-            }
-        }
-
-        #endregion Private Properties
-
         // GET: /Scores/
         public ActionResult Index()
         {
@@ -94,11 +76,12 @@ namespace DailyScores.Controllers
             return this.View(emailSubmissions);
         }
 
+
         [ValidateInput(false)]
         [AcceptVerbs(HttpVerbs.Post)]
         public void EmailSubmission(EmailRequest request)
         {
-            this.RecordEmailSubmission(request);
+            var submissionId = this.RecordEmailSubmission(request);
 
             var emailAddress = this.Repository.EmailAddresses.SingleOrDefault(e => e.Address == request.Sender);
 
@@ -106,25 +89,69 @@ namespace DailyScores.Controllers
             {
                 this.ParseAndSaveScores(emailAddress.Player, request);
             }
+            else
+            {
+                //TODO: REMOVE
+                this.AddToLogGroup("Unable to find PLAYER", "Submission Id: " + submissionId);
+            }
+
+            //TODO: REMOVE
+            this.SaveAndCommitLogGroup();
         }
 
+
         #region Private Methods
+
+        private void AddToLogGroup(params string[] messages)
+        {
+            if (messages.Any())
+            {
+                var builder = new StringBuilder();
+
+                foreach (var message in messages)
+                {
+                    builder.AppendLine(message);
+                }
+
+                this.LogGroup.LogEntries.Add(new LogEntry
+                                             {
+                                                 Description = builder.ToString(),
+                                             });
+            }
+        }
+
+        private void SaveAndCommitLogGroup()
+        {
+            if (this.LogGroup.LogEntries.Any())
+            {
+                this.Repository.LogGroups.Add(this.LogGroup);
+                this.Repository.SaveChanges();
+            }
+        }
 
         private void ParseAndSaveScores(Player player, EmailRequest email)
         {
             Response<HidatoScore> hidatoResponse = null;
             Response<JumbleScore> jumbleResponse = null;
 
+            bool anyChanges = false;
             var bodyText = email.Body;
             var dateReponse = new DateParser().Parse(bodyText);
-            bool anyChanges = false;
+
+            //TODO: REMOVE
+            this.AddToLogGroup("Parsing Date Successful = " + dateReponse.IsSuccess);
+
 
             if (dateReponse.IsSuccess)
             {
                 bool hasHidatoEntry = this.Repository.HidatoScores.Any(s => s.Date == dateReponse.Value);
+                //TODO: REMOVE
+                this.AddToLogGroup("Hidato Score already exists = " + hasHidatoEntry);
                 if (!hasHidatoEntry)
                 {
                     hidatoResponse = new HidatoScoreParser().Parse(bodyText);
+                    //TODO: REMOVE
+                    this.AddToLogGroup("Parsing Hidato Score: Success = " + hidatoResponse.IsSuccess);
                     if (hidatoResponse.IsSuccess)
                     {
                         hidatoResponse.Value.PlayerId = player.PlayerId;
@@ -134,9 +161,13 @@ namespace DailyScores.Controllers
                 }
 
                 bool hasJumbleEntry = this.Repository.JumbleScores.Any(s => s.Date == dateReponse.Value);
+                //TODO: REMOVE
+                this.AddToLogGroup("Jumble Score already exists = " + hasJumbleEntry);
                 if (!hasJumbleEntry)
                 {
                     jumbleResponse = new JumbleScoreParser().Parse(bodyText);
+                    //TODO: REMOVE
+                    this.AddToLogGroup("Parsing Jumble Score: Success = " + jumbleResponse.IsSuccess);
                     if (jumbleResponse.IsSuccess)
                     {
                         jumbleResponse.Value.PlayerId = player.PlayerId;
@@ -172,6 +203,8 @@ namespace DailyScores.Controllers
 
             if (!string.IsNullOrEmpty(errorReport))
             {
+                //TODO: REMOVE
+                this.AddToLogGroup(builder.ToString());
                 this.EmailErrorReport(errorReport, email);
             }
         }
@@ -198,18 +231,28 @@ namespace DailyScores.Controllers
             return builder.ToString();
         }
 
-        private void RecordEmailSubmission(EmailRequest request)
+        private long RecordEmailSubmission(EmailRequest request)
         {
+            //TODO: REMOVE
+            this.AddToLogGroup("Begin saving EMAIL SUBMISSION");
+
+            var body = request.Body.Replace(Environment.NewLine, "[newline]");
+
             var submission = new EmailSubmission
                              {
                                  From = request.Sender,
                                  To = request.Recipient,
                                  Subject = request.Subject,
-                                 Body = request.Body
+                                 Body = body
                              };
 
             this.Repository.EmailSubmissions.Add(submission);
             this.Repository.SaveChanges();
+
+            //TODO: REMOVE
+            this.AddToLogGroup("Saved EMAIL SUBMISSION: " + submission.EmailSubmissionId);
+
+            return submission.EmailSubmissionId;
         }
 
         private void EmailErrorReport(string errorMessages, EmailRequest email)
@@ -225,5 +268,54 @@ namespace DailyScores.Controllers
         }
 
         #endregion Private Methods
+
+        public string Test()
+        {
+            var request = new EmailRequest
+                          {
+                              Sender = "jake@sheacarrjewell.com",
+                              Subject = "",
+                              Recipient = "scores@dailyscores.mailgun.org",
+                              Body = "Hidato: 18514 (1350, 6750, 1157, 2x) 0:43\r\nJumble: 1040 (5x, 5x, 4x, 2x, 2x) 1:37\r\n\r\n*Ryan Shea**"
+                          };
+
+            this.EmailSubmission(request);
+            return string.Empty;
+        }
+
+
+        #region Private Properties
+
+        private DailyScoresEntities _repository;
+        private DailyScoresEntities Repository
+        {
+            get
+            {
+                if (this._repository == null)
+                {
+                    this._repository = new DailyScoresEntities();
+                }
+
+                return this._repository;
+            }
+        }
+
+        private LogGroup _logGroup;
+        private LogGroup LogGroup
+        {
+            get
+            {
+                if (this._logGroup == null)
+                {
+                    this._logGroup = new LogGroup { Description = "Scores Controller" };
+                    this._logGroup.LogEntries = new List<LogEntry>();
+                }
+
+                return this._logGroup;
+            }
+            set { this._logGroup = value; }
+        }
+
+        #endregion Private Properties
     }
 }

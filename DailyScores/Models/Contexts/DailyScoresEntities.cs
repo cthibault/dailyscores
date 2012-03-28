@@ -10,6 +10,8 @@ namespace DailyScores.Models
     public class DailyScoresEntities : DbContext
     {
         public DbSet<EmailSubmission> EmailSubmissions { get; set; }
+        public DbSet<LogGroup> LogGroups { get; set; }
+        public DbSet<LogEntry> LogEntries { get; set; }
 
         public DbSet<Player> Players { get; set; }
         public DbSet<EmailAddress> EmailAddresses { get; set; }

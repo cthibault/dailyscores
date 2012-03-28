@@ -82,6 +82,7 @@
     <Compile Include="Models\Entities\BaseEntity.cs" />
     <Compile Include="Models\Contexts\DailyScoresEntities.cs" />
     <Compile Include="Models\Entities\EmailAddress.cs" />
+    <Compile Include="Models\Entities\LogEntry.cs" />
     <Compile Include="Models\Parsers\BaseScoreParser.cs" />
     <Compile Include="Models\Parsers\DateParser.cs" />
     <Compile Include="Models\Requests\EmailRequest.cs" />
