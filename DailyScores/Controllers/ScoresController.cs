@@ -144,7 +144,7 @@ namespace DailyScores.Controllers
 
             if (dateReponse.IsSuccess)
             {
-                bool hasHidatoEntry = this.Repository.HidatoScores.Any(s => s.Date == dateReponse.Value);
+                bool hasHidatoEntry = this.Repository.HidatoScores.Any(s => s.PlayerId == player.PlayerId && s.Date == dateReponse.Value);
                 //TODO: REMOVE
                 this.AddToLogGroup("Hidato Score already exists = " + hasHidatoEntry);
                 if (!hasHidatoEntry)
@@ -160,7 +160,7 @@ namespace DailyScores.Controllers
                     }
                 }
 
-                bool hasJumbleEntry = this.Repository.JumbleScores.Any(s => s.Date == dateReponse.Value);
+                bool hasJumbleEntry = this.Repository.JumbleScores.Any(s => s.PlayerId == player.PlayerId && s.Date == dateReponse.Value);
                 //TODO: REMOVE
                 this.AddToLogGroup("Jumble Score already exists = " + hasJumbleEntry);
                 if (!hasJumbleEntry)

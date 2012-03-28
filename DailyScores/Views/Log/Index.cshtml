@@ -14,7 +14,7 @@
     </tr>
 @foreach (var group in Model)
 {
-    foreach (var entry in group.LogEntries)
+    foreach (var entry in group.LogEntries.OrderByDescending(e => e.EntryId))
     {
         <tr>
             <td>@group.GroupId</td>
