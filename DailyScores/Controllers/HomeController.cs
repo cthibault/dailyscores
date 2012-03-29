@@ -9,24 +9,15 @@ using Typesafe.Mailgun;
 
 namespace DailyScores.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        
+
         //
         // GET: /Home/
         public ActionResult Index()
         {
-            var players = new List<Player>();
-
-            try
-            {
-                var db = new DailyScoresEntities();
-                players = db.Players.ToList();
-            }
-            catch (Exception ex)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-            }
-            
+            var players = this.Repository.Players.ToList();
 
             return View(players);
         }

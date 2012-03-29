@@ -1,0 +1,31 @@
+﻿@model IEnumerable<DailyScores.Models.JumbleScore>
+
+<h2>Recent Jumble Scores:</h2>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Player</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Word 1</th>
+        <th>Word 2</th>
+        <th>Word 3</th>
+        <th>Word 4</th>
+        <th>Word 5</th>
+        <th>Time</th>
+    </tr>
+    @foreach (var score in Model) {
+    <tr>
+        <td>@score.JumbleId</td>
+        <td>@Html.ActionLink(score.Player.Name, "Details", "Players", new { id = score.PlayerId }, null)</td>
+        <td>@score.DisplayDate</td>
+        <td>@score.TotalScore</td>
+        <td>@score.WordOneMultiplier</td>
+        <td>@score.WordTwoMultiplier</td>
+        <td>@score.WordThreeMultiplier</td>
+        <td>@score.WordFourMultiplier</td>
+        <td>@score.WordFiveMultiplier</td>
+        <td>@score.DisplayTime</td>
+    </tr>
+    }
+</table>

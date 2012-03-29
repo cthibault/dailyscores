@@ -14,39 +14,23 @@ using Typesafe.Mailgun;
 
 namespace DailyScores.Controllers
 {
-    public class ScoresController : Controller
+    public class ScoresController : BaseController
     {
         // GET: /Scores/
         public ActionResult Index()
         {
-            var hidatoScores = new List<HidatoScore>();
-            var jumbleScores = new List<JumbleScore>();
-
-            try
-            {
-                hidatoScores = this.Repository.HidatoScores
+            var hidatoScores = this.Repository.HidatoScores
                     .Include("Player")
                     .OrderByDescending(s => s.HidatoId)
                     .Take(10)
                     .ToList();
-            }
-            catch (Exception ex)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-            }
 
-            try
-            {
-                jumbleScores = this.Repository.JumbleScores
+            var jumbleScores = this.Repository.JumbleScores
                     .Include("Player")
                     .OrderByDescending(s => s.JumbleId)
                     .Take(10)
                     .ToList();
-            }
-            catch (Exception ex)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-            }
+
 
             this.ViewBag.HidatoScores = hidatoScores;
             this.ViewBag.JumbleScores = jumbleScores;
@@ -58,20 +42,10 @@ namespace DailyScores.Controllers
         // GET: /Scores/EmailSubmissions
         public ActionResult EmailSubmissions()
         {
-            var emailSubmissions = new List<EmailSubmission>();
-
-            try
-            {
-                emailSubmissions = this.Repository.EmailSubmissions
+            var emailSubmissions = this.Repository.EmailSubmissions
                     .OrderByDescending(e => e.EmailSubmissionId)
                     .Take(10)
                     .ToList();
-            }
-            catch (Exception ex)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-            }
-
 
             return this.View(emailSubmissions);
         }
@@ -269,36 +243,7 @@ namespace DailyScores.Controllers
 
         #endregion Private Methods
 
-        public string Test()
-        {
-            var request = new EmailRequest
-                          {
-                              Sender = "jake@sheacarrjewell.com",
-                              Subject = "",
-                              Recipient = "scores@dailyscores.mailgun.org",
-                              Body = "Hidato: 18514 (1350, 6750, 1157, 2x) 0:43\r\nJumble: 1040 (5x, 5x, 4x, 2x, 2x) 1:37\r\n\r\n*Ryan Shea**"
-                          };
-
-            this.EmailSubmission(request);
-            return string.Empty;
-        }
-
-
         #region Private Properties
-
-        private DailyScoresEntities _repository;
-        private DailyScoresEntities Repository
-        {
-            get
-            {
-                if (this._repository == null)
-                {
-                    this._repository = new DailyScoresEntities();
-                }
-
-                return this._repository;
-            }
-        }
 
         private LogGroup _logGroup;
         private LogGroup LogGroup

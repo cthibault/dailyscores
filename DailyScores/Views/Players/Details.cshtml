@@ -1,0 +1,12 @@
+﻿@using DailyScores.Models
+@model DailyScores.Models.Player
+
+@{
+    ViewBag.Title = "Player Details";
+}
+
+<h2>@Model.Name</h2>
+
+<p>@Html.Partial("_RecentHidatoScores", ViewBag.HidatoScores as IEnumerable<HidatoScore>)</p>
+<p>@Html.Partial("_RecentJumbleScores", ViewBag.JumbleScores as IEnumerable<JumbleScore>)</p>
+<p>@Html.Partial("_RecentEmailSubmissions", ViewBag.EmailSubmissions as IEnumerable<EmailSubmission>)</p>
