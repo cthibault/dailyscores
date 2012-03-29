@@ -3,19 +3,21 @@
 <h2>Recent Email Submissions:</h2>
 <table>
     <tr>
-        <th>Id</th>
-        <th>Date</th>
-        <th>To</th>
-        <th>From</th>
+        <th></th>
         <th>Body</th>
     </tr>
-    @foreach (var email in Model) {
+@foreach (var email in Model)
+{
     <tr>
         <td>@Html.DisplayFor(item => email.EmailSubmissionId)</td>
-        <td>@Html.DisplayFor(item => email.ModifiedDtm)</td>
-        <td>@Html.DisplayFor(item => email.To)</td>
-        <td>@Html.DisplayFor(item => email.From)</td>
-        <td>@Html.DisplayFor(item => email.Body)</td>
+        <td rowspan="3">@Html.DisplayFor(item => email.Body)</td>
     </tr>
-    }
+    <tr>
+        <td>@Html.DisplayFor(item => email.ModifiedDtm)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayFor(item => email.From)</td>
+    </tr>
+
+}
 </table>
