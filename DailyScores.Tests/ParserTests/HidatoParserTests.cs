@@ -18,11 +18,11 @@ namespace DailyScores.Tests
             var output = parser.Parse(text);
 
             Assert.False(output.IsSuccess);
-            Assert.Contains("Input Text does not contain a Hidato score", output.ErrorMessages);
+            Assert.Contains("Unable to parse the Hidato score", output.ErrorMessages);
         }
 
         [Fact]
-        public void UnableToParse_TextDoesNotBeginWithJumble()
+        public void UnableToParse_NoLineBeginsWithHidato()
         {
             string text = "This is just a normal sentence.";
             
@@ -30,11 +30,11 @@ namespace DailyScores.Tests
             var output = parser.Parse(text);
 
             Assert.False(output.IsSuccess);
-            Assert.Contains("Input Text does not contain a Hidato score", output.ErrorMessages);
+            Assert.Contains("Unable to parse the Hidato score", output.ErrorMessages);
         }
 
         [Fact]
-        public void AbleToParse_StrictJumbleScoreFormat()
+        public void AbleToParse_StrictHidatoScoreFormat()
         {
             string text = "Hidato: 26360 (2100, 10000, 1080, 2x) 2:00";
 
@@ -66,9 +66,42 @@ namespace DailyScores.Tests
         }
 
         [Fact]
-        public void AbleToParse_LooseJumbleScoreFormat_OnlySpaces()
+        public void AbleToParse_StrictHidatoScoreFormatWithDate()
         {
-            string text = "Hidato: 26360 (2100, 10000, 1080, 2x) 2:00";
+            string text = "Date: 1/14/1985";
+            text += "\r\nHidato: 26360 (2100, 10000, 1080, 2x) 2:00";
+
+            var parser = new HidatoScoreParser();
+            var output = parser.Parse(text);
+
+            var expectedValue = new HidatoScore
+                                {
+                                    TotalScore = 26360,
+                                    TileScore = 2100,
+                                    PerfectBonus = 10000,
+                                    TimeBonus = 1080,
+                                    AdvancedMultiplier = 2,
+                                    TimeInSeconds = 120,
+                                    Date = new DateTime(1985, 1, 14)
+                                };
+
+            Assert.True(output.IsSuccess);
+            Assert.Empty(output.ErrorMessages);
+            Assert.Empty(output.Exceptions);
+
+            Assert.Equal(expectedValue.TotalScore, output.Value.TotalScore);
+            Assert.Equal(expectedValue.TileScore, output.Value.TileScore);
+            Assert.Equal(expectedValue.PerfectBonus, output.Value.PerfectBonus);
+            Assert.Equal(expectedValue.TimeBonus, output.Value.TimeBonus);
+            Assert.Equal(expectedValue.AdvancedMultiplier, output.Value.AdvancedMultiplier);
+            Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
+            Assert.Equal(expectedValue.Date, output.Value.Date);
+        }
+
+        [Fact]
+        public void AbleToParse_LooseHidatoScoreFormat_OnlySpaces()
+        {
+            string text = "Hidato: 26360 2100 10000 1080 2x 2:00";
 
             var parser = new HidatoScoreParser();
             var output = parser.Parse(text);
@@ -98,7 +131,38 @@ namespace DailyScores.Tests
         }
 
         //TODO: More Test
-        //MultiLine input
         //With and Without Dates
+        [Fact]
+        public void AbleToParse_ParseFirstHidatoScore()
+        {
+            string text = "Hidato: 26360 (2100, 10000, 1080, 2x) 2:00";
+            text += "\r\nHidato: 1 (2, 3, 4, 5x) 6:00";
+
+            var parser = new HidatoScoreParser();
+            var output = parser.Parse(text);
+
+            var expectedValue = new HidatoScore
+                                {
+                                    TotalScore = 26360,
+                                    TileScore = 2100,
+                                    PerfectBonus = 10000,
+                                    TimeBonus = 1080,
+                                    AdvancedMultiplier = 2,
+                                    TimeInSeconds = 120,
+                                    Date = DateTime.Now.Date
+                                };
+
+            Assert.True(output.IsSuccess);
+            Assert.Empty(output.ErrorMessages);
+            Assert.Empty(output.Exceptions);
+
+            Assert.Equal(expectedValue.TotalScore, output.Value.TotalScore);
+            Assert.Equal(expectedValue.TileScore, output.Value.TileScore);
+            Assert.Equal(expectedValue.PerfectBonus, output.Value.PerfectBonus);
+            Assert.Equal(expectedValue.TimeBonus, output.Value.TimeBonus);
+            Assert.Equal(expectedValue.AdvancedMultiplier, output.Value.AdvancedMultiplier);
+            Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
+            Assert.Equal(expectedValue.Date, output.Value.Date);
+        }
     }
 }

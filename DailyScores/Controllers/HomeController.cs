@@ -11,15 +11,11 @@ namespace DailyScores.Controllers
 {
     public class HomeController : BaseController
     {
-        
-
         //
         // GET: /Home/
         public ActionResult Index()
         {
-            var players = this.Repository.Players.ToList();
-
-            return View(players);
+            return View();
         }
     }
 }

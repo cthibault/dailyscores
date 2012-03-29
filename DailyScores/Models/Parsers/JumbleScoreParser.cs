@@ -25,7 +25,7 @@ namespace DailyScores.Models.Parsers
             }
             else
             {
-                response.ErrorMessages.Add("Input Text does not contain a Jumble score");                
+                response.ErrorMessages.Add("Unable to parse the Jumble score");                
             }
 
             return response;

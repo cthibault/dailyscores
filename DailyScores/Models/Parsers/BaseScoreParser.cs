@@ -18,9 +18,9 @@ namespace DailyScores.Models.Parsers
         protected virtual string ExtractInput(string input)
         {
             var split = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            var results = split.Where(this.ContainsHeader);
+            var results = split.Where(this.ContainsHeader).ToList();
 
-            return results.Count() == 1 ? results.First() : string.Empty;
+            return results.Any() ? results.First() : string.Empty;
         }
 
         protected virtual int? GetInteger(string input)
