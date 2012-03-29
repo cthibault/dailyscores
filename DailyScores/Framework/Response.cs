@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace DailyScores.Models
+namespace DailyScores.Framework
 {
     public class Response<T>
     {

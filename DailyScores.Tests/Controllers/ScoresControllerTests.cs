@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DailyScores.Controllers;
-using DailyScores.Models.Requests;
+using DailyScores.Framework.Requests;
 using Xunit;
 
 namespace DailyScores.Tests.Controllers

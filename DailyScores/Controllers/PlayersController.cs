@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DailyScores.Framework.Controllers;
 using DailyScores.Models;
 
 namespace DailyScores.Controllers

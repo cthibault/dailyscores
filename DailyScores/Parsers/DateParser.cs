@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using DailyScores.Framework;
 
-namespace DailyScores.Models.Parsers
+namespace DailyScores.Parsers
 {
     public class DateParser : BaseScoreParser<DateTime>
     {

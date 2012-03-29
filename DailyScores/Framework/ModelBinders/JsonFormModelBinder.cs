@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 
-namespace DailyScores.Binders
+namespace DailyScores.Framework.ModelBinders
 {
     public class JsonFormModelBinder : IModelBinder
     {

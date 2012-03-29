@@ -6,10 +6,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using DailyScores.Binders;
+using DailyScores.Framework;
+using DailyScores.Framework.Controllers;
+using DailyScores.Framework.Requests;
 using DailyScores.Models;
-using DailyScores.Models.Parsers;
-using DailyScores.Models.Requests;
+using DailyScores.Parsers;
 using Typesafe.Mailgun;
 
 namespace DailyScores.Controllers

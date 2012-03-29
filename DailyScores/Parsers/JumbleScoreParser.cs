@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyScores.Framework;
+using DailyScores.Models;
 
-namespace DailyScores.Models.Parsers
+namespace DailyScores.Parsers
 {
     public class JumbleScoreParser : BaseScoreParser<JumbleScore>
     {

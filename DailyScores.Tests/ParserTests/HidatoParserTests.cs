@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DailyScores.Models;
-using DailyScores.Models.Parsers;
+using DailyScores.Parsers;
 using Xunit;
 
 namespace DailyScores.Tests

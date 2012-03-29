@@ -1,6 +1,7 @@
 using System.Web.Mvc;
+using DailyScores.Models;
 
-namespace DailyScores.Models
+namespace DailyScores.Framework.Controllers
 {
     public class BaseController : Controller
     {

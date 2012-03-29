@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using DailyScores.Binders;
+using DailyScores.Framework.ModelBinders;
+using DailyScores.Framework.Requests;
 using DailyScores.Models;
-using DailyScores.Models.Requests;
 
 namespace DailyScores
 {

@@ -1,4 +1,4 @@
-﻿namespace DailyScores.Models.Requests
+﻿namespace DailyScores.Framework.Requests
 {
     public class EmailRequest
     {

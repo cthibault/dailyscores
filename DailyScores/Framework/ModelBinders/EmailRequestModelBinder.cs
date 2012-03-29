@@ -1,9 +1,7 @@
-using System;
 using System.Web.Mvc;
-using DailyScores.Models;
-using DailyScores.Models.Requests;
+using DailyScores.Framework.Requests;
 
-namespace DailyScores.Binders
+namespace DailyScores.Framework.ModelBinders
 {
     public class EmailRequestModelBinder : IModelBinder
     {
