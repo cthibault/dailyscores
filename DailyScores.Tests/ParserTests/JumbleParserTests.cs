@@ -137,8 +137,6 @@ namespace DailyScores.Tests
             Assert.Equal(expectedValue.Date, output.Value.Date);
         }
 
-        //TODO: More Test
-        //With and Without Dates
         [Fact]
         public void AbleToParse_ParseFirstJumbleScore()
         {
