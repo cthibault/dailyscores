@@ -13,17 +13,19 @@
         <th>Multiplier</th>
         <th>Time</th>
     </tr>
-    @foreach (var score in Model) {
-    <tr>
-        <td>@score.HidatoId</td>
-        <td>@Html.ActionLink(score.Player.Name, "Details", "Players", new { id = score.PlayerId }, null)</td>
-        <td>@score.DisplayDate</td>
-        <td>@score.TotalScore</td>
-        <td>@score.TileScore</td>
-        <td>@score.PerfectBonus</td>
-        <td>@score.TimeBonus</td>
-        <td>@score.AdvancedMultiplier</td>
-        <td>@score.DisplayTime</td>
-    </tr>
+    @foreach (var score in Model)
+    {
+        string style = score.Date == DateTime.Today ? "today" : string.Empty;
+        <tr class="@style">
+            <td>@score.HidatoId</td>
+            <td>@Html.ActionLink(score.Player.Name, "Details", "Players", new { id = score.PlayerId }, null)</td>
+            <td>@score.DisplayDate</td>
+            <td>@score.TotalScore</td>
+            <td>@score.TileScore</td>
+            <td>@score.PerfectBonus</td>
+            <td>@score.TimeBonus</td>
+            <td>@score.AdvancedMultiplier</td>
+            <td>@score.DisplayTime</td>
+        </tr>
     }
 </table>

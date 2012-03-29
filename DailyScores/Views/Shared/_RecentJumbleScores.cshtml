@@ -14,18 +14,20 @@
         <th>Word 5</th>
         <th>Time</th>
     </tr>
-    @foreach (var score in Model) {
-    <tr>
-        <td>@score.JumbleId</td>
-        <td>@Html.ActionLink(score.Player.Name, "Details", "Players", new { id = score.PlayerId }, null)</td>
-        <td>@score.DisplayDate</td>
-        <td>@score.TotalScore</td>
-        <td>@score.WordOneMultiplier</td>
-        <td>@score.WordTwoMultiplier</td>
-        <td>@score.WordThreeMultiplier</td>
-        <td>@score.WordFourMultiplier</td>
-        <td>@score.WordFiveMultiplier</td>
-        <td>@score.DisplayTime</td>
-    </tr>
+    @foreach (var score in Model)
+    {
+        string style = score.Date == DateTime.Today ? "today" : string.Empty;
+        <tr class="@style">
+            <td>@score.JumbleId</td>
+            <td>@Html.ActionLink(score.Player.Name, "Details", "Players", new { id = score.PlayerId }, null)</td>
+            <td>@score.DisplayDate</td>
+            <td>@score.TotalScore</td>
+            <td>@score.WordOneMultiplier</td>
+            <td>@score.WordTwoMultiplier</td>
+            <td>@score.WordThreeMultiplier</td>
+            <td>@score.WordFourMultiplier</td>
+            <td>@score.WordFiveMultiplier</td>
+            <td>@score.DisplayTime</td>
+        </tr>
     }
 </table>

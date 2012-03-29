@@ -308,6 +308,12 @@ tr
 	line-height: 25px;
 }
 
+tr.today 
+{
+    font-weight: bold;
+    background-color: lightblue;
+}
+
 th
 {
 	background-color: #9b9993;
