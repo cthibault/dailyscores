@@ -51,7 +51,7 @@ namespace DailyScores.Tests
                                     WordFourMultiplier = 2,
                                     WordFiveMultiplier = 1,
                                     TimeInSeconds = 154,
-                                    Date = DateTime.Now.Date
+                                    Date = DateTime.UtcNow.Date
                                 };
 
             Assert.True(output.IsSuccess);
@@ -120,7 +120,7 @@ namespace DailyScores.Tests
                                     WordFourMultiplier = 2,
                                     WordFiveMultiplier = 1,
                                     TimeInSeconds = 154,
-                                    Date = DateTime.Now.Date
+                                    Date = DateTime.UtcNow.Date
                                 };
 
             Assert.True(output.IsSuccess);
@@ -155,7 +155,7 @@ namespace DailyScores.Tests
                                     WordFourMultiplier = 2,
                                     WordFiveMultiplier = 1,
                                     TimeInSeconds = 154,
-                                    Date = DateTime.Now.Date
+                                    Date = DateTime.UtcNow.Date
                                 };
 
             Assert.True(output.IsSuccess);

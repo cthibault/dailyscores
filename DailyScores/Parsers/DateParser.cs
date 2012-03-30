@@ -23,7 +23,7 @@ namespace DailyScores.Parsers
             }
             else
             {
-                response.Value = DateTime.Now.Date;
+                response.Value = DateTime.UtcNow.Date;
             }
 
             return response;
@@ -40,7 +40,7 @@ namespace DailyScores.Parsers
             {
                 var date = this.GetDate(textParts[1]);
 
-                response.Value = date.HasValue ? date.Value : DateTime.Now.Date;
+                response.Value = date.HasValue ? date.Value : DateTime.UtcNow.Date;
             }
             catch (Exception ex)
             {

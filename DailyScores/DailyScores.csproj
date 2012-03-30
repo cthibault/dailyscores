@@ -72,6 +72,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\DataProviders\DateTimeMetadataProvider.cs" />
+    <Compile Include="Framework\ModelBinders\DateTimeModelBinder.cs" />
     <Compile Include="Framework\ModelBinders\EmailRequestModelBinder.cs" />
     <Compile Include="Framework\ModelBinders\JsonFormModelBinder.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -173,7 +175,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Framework\DataProviders\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Scores\EmailSubmissions.cshtml" />

@@ -49,7 +49,7 @@ namespace DailyScores.Tests
                                     TimeBonus = 1080,
                                     AdvancedMultiplier = 2,
                                     TimeInSeconds = 120,
-                                    Date = DateTime.Now.Date
+                                    Date = DateTime.UtcNow.Date
                                 };
 
             Assert.True(output.IsSuccess);
@@ -114,7 +114,7 @@ namespace DailyScores.Tests
                                     TimeBonus = 1080,
                                     AdvancedMultiplier = 2,
                                     TimeInSeconds = 120,
-                                    Date = DateTime.Now.Date
+                                    Date = DateTime.UtcNow.Date
                                 };
 
             Assert.True(output.IsSuccess);
@@ -147,7 +147,7 @@ namespace DailyScores.Tests
                                     TimeBonus = 1080,
                                     AdvancedMultiplier = 2,
                                     TimeInSeconds = 120,
-                                    Date = DateTime.Now.Date
+                                    Date = DateTime.UtcNow.Date
                                 };
 
             Assert.True(output.IsSuccess);

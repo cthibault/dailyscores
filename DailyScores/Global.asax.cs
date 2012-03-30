@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using DailyScores.Framework.DataProviders;
 using DailyScores.Framework.ModelBinders;
 using DailyScores.Framework.Requests;
 using DailyScores.Models;
@@ -41,6 +42,10 @@ namespace DailyScores
             RegisterRoutes(RouteTable.Routes);
 
             ModelBinders.Binders.Add(typeof(EmailRequest), new EmailRequestModelBinder());
+            //ModelBinders.Binders[typeof(DateTime)] = new DateTimeModelBinder();
+            //ModelBinders.Binders[typeof(DateTime?)] = new DateTimeModelBinder();
+
+            //ModelMetadataProviders.Current = new DateTimeMetadataProvider();
         }
     }
 }
