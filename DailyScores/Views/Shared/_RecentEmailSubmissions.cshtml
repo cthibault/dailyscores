@@ -8,16 +8,17 @@
     </tr>
 @foreach (var email in Model)
 {
-    <tr>
-        <td>@Html.DisplayFor(item => email.EmailSubmissionId)</td>
-        <td rowspan="3">@Html.DisplayFor(item => email.Body)</td>
-    </tr>
-    <tr>
-        <td>@Html.DisplayFor(item => email.ModifiedDtm)</td>
-    </tr>
-    <tr>
-        <td>@Html.DisplayFor(item => email.From)</td>
-    </tr>
-
+    <tbody class="row-grouping">
+        <tr>
+            <td>@Html.DisplayFor(item => email.EmailSubmissionId)</td>
+            <td rowspan="3">@Html.DisplayFor(item => email.Body)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(item => email.ModifiedDtm)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(item => email.From)</td>
+        </tr>
+    </tbody>
 }
 </table>

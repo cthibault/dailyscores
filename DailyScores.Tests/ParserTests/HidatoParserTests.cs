@@ -47,7 +47,7 @@ namespace DailyScores.Tests
                                     TileScore = 2100,
                                     PerfectBonus = 10000,
                                     TimeBonus = 1080,
-                                    AdvancedMultiplier = 2,
+                                    Multiplier = 2,
                                     TimeInSeconds = 120,
                                     Date = DateTime.UtcNow.Date
                                 };
@@ -60,7 +60,7 @@ namespace DailyScores.Tests
             Assert.Equal(expectedValue.TileScore, output.Value.TileScore);
             Assert.Equal(expectedValue.PerfectBonus, output.Value.PerfectBonus);
             Assert.Equal(expectedValue.TimeBonus, output.Value.TimeBonus);
-            Assert.Equal(expectedValue.AdvancedMultiplier, output.Value.AdvancedMultiplier);
+            Assert.Equal(expectedValue.Multiplier, output.Value.Multiplier);
             Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
             Assert.Equal(expectedValue.Date, output.Value.Date);
         }
@@ -80,7 +80,7 @@ namespace DailyScores.Tests
                                     TileScore = 2100,
                                     PerfectBonus = 10000,
                                     TimeBonus = 1080,
-                                    AdvancedMultiplier = 2,
+                                    Multiplier = 2,
                                     TimeInSeconds = 120,
                                     Date = new DateTime(1985, 1, 14)
                                 };
@@ -93,7 +93,7 @@ namespace DailyScores.Tests
             Assert.Equal(expectedValue.TileScore, output.Value.TileScore);
             Assert.Equal(expectedValue.PerfectBonus, output.Value.PerfectBonus);
             Assert.Equal(expectedValue.TimeBonus, output.Value.TimeBonus);
-            Assert.Equal(expectedValue.AdvancedMultiplier, output.Value.AdvancedMultiplier);
+            Assert.Equal(expectedValue.Multiplier, output.Value.Multiplier);
             Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
             Assert.Equal(expectedValue.Date, output.Value.Date);
         }
@@ -112,7 +112,7 @@ namespace DailyScores.Tests
                                     TileScore = 2100,
                                     PerfectBonus = 10000,
                                     TimeBonus = 1080,
-                                    AdvancedMultiplier = 2,
+                                    Multiplier = 2,
                                     TimeInSeconds = 120,
                                     Date = DateTime.UtcNow.Date
                                 };
@@ -125,7 +125,7 @@ namespace DailyScores.Tests
             Assert.Equal(expectedValue.TileScore, output.Value.TileScore);
             Assert.Equal(expectedValue.PerfectBonus, output.Value.PerfectBonus);
             Assert.Equal(expectedValue.TimeBonus, output.Value.TimeBonus);
-            Assert.Equal(expectedValue.AdvancedMultiplier, output.Value.AdvancedMultiplier);
+            Assert.Equal(expectedValue.Multiplier, output.Value.Multiplier);
             Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
             Assert.Equal(expectedValue.Date, output.Value.Date);
         }
@@ -145,7 +145,7 @@ namespace DailyScores.Tests
                                     TileScore = 2100,
                                     PerfectBonus = 10000,
                                     TimeBonus = 1080,
-                                    AdvancedMultiplier = 2,
+                                    Multiplier = 2,
                                     TimeInSeconds = 120,
                                     Date = DateTime.UtcNow.Date
                                 };
@@ -158,7 +158,7 @@ namespace DailyScores.Tests
             Assert.Equal(expectedValue.TileScore, output.Value.TileScore);
             Assert.Equal(expectedValue.PerfectBonus, output.Value.PerfectBonus);
             Assert.Equal(expectedValue.TimeBonus, output.Value.TimeBonus);
-            Assert.Equal(expectedValue.AdvancedMultiplier, output.Value.AdvancedMultiplier);
+            Assert.Equal(expectedValue.Multiplier, output.Value.Multiplier);
             Assert.Equal(expectedValue.TimeInSeconds, output.Value.TimeInSeconds);
             Assert.Equal(expectedValue.Date, output.Value.Date);
         }

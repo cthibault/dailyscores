@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using DailyScores.Framework;
 using DailyScores.Framework.DataProviders;
 using DailyScores.Framework.ModelBinders;
 using DailyScores.Framework.Requests;
@@ -34,6 +35,11 @@ namespace DailyScores
             );
         }
 
+        protected void Application_BeginRequest()
+        {
+            TimeZoneManager.UpdateTimeZone(this.Request);
+        }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -42,10 +48,10 @@ namespace DailyScores
             RegisterRoutes(RouteTable.Routes);
 
             ModelBinders.Binders.Add(typeof(EmailRequest), new EmailRequestModelBinder());
-            //ModelBinders.Binders[typeof(DateTime)] = new DateTimeModelBinder();
-            //ModelBinders.Binders[typeof(DateTime?)] = new DateTimeModelBinder();
+            ModelBinders.Binders[typeof(DateTime)] = new DateTimeModelBinder();
+            ModelBinders.Binders[typeof(DateTime?)] = new DateTimeModelBinder();
 
-            //ModelMetadataProviders.Current = new DateTimeMetadataProvider();
+            ModelMetadataProviders.Current = new DateTimeMetadataProvider();
         }
     }
 }

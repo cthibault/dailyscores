@@ -22,13 +22,17 @@ namespace DailyScores.Controllers
         {
             var hidatoScores = this.Repository.HidatoScores
                     .Include("Player")
-                    .OrderByDescending(s => s.HidatoId)
+                    .OrderByDescending(s => s.Date)
+                    .ThenByDescending(s => s.TotalScore)
+                    .ThenBy(s => s.TimeInSeconds)
                     .Take(10)
                     .ToList();
 
             var jumbleScores = this.Repository.JumbleScores
                     .Include("Player")
-                    .OrderByDescending(s => s.JumbleId)
+                    .OrderByDescending(s => s.Date)
+                    .ThenByDescending(s => s.TotalScore)
+                    .ThenBy(s => s.TimeInSeconds)
                     .Take(10)
                     .ToList();
 

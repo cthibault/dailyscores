@@ -64,7 +64,7 @@ namespace DailyScores.Parsers
                                     TileScore = values[1].Value,
                                     PerfectBonus = values[2].Value,
                                     TimeBonus = values[3].Value,
-                                    AdvancedMultiplier = values[4].Value,
+                                    Multiplier = values[4].Value,
                                     TimeInSeconds = values[5].Value,
                                     Date = date
                                 };

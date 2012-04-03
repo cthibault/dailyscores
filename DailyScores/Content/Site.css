@@ -304,7 +304,7 @@ table
 
 tr
 {
-	border: 1px solid #000;
+	/*border: 1px solid #000;*/
 	line-height: 25px;
 }
 
@@ -330,4 +330,10 @@ th, td
 tr:hover
 {
 	background-color: #fff;
+}
+
+
+tbody.row-grouping 
+{
+    border: 1px solid black;
 }

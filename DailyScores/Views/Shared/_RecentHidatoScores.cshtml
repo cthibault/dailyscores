@@ -13,19 +13,24 @@
         <th>Multiplier</th>
         <th>Time</th>
     </tr>
-    @foreach (var score in Model)
+    @foreach (var dateGroup in Model.GroupBy(s => s.Date))
     {
-        string style = score.Date == DateTime.Today ? "today" : string.Empty;
-        <tr class="@style">
-            <td>@score.HidatoId</td>
-            <td>@Html.ActionLink(score.Player.Name, "Details", "Players", new { id = score.PlayerId }, null)</td>
-            <td>@score.DisplayDate</td>
-            <td>@score.TotalScore</td>
-            <td>@score.TileScore</td>
-            <td>@score.PerfectBonus</td>
-            <td>@score.TimeBonus</td>
-            <td>@score.AdvancedMultiplier</td>
-            <td>@score.DisplayTime</td>
-        </tr>
+        <tbody class="row-grouping">
+            @foreach (var score in dateGroup.OrderByDescending(s => s.TotalScore).ThenBy(s => s.TimeInSeconds))
+            {
+                string style = score.Date == DateTime.Today ? "today" : string.Empty;
+                <tr class="@style">
+                    <td>@Html.DisplayFor(x => score.HidatoId)</td>
+                    <td>@Html.ActionLink(score.Player.Name, "Details", "Players", new { id = score.PlayerId }, null)</td>
+                    <td>@Html.DisplayFor(x => score.DisplayDate)</td>
+                    <td>@Html.DisplayFor(x => score.TotalScore)</td>
+                    <td>@Html.DisplayFor(x => score.TileScore)</td>
+                    <td>@Html.DisplayFor(x => score.PerfectBonus)</td>
+                    <td>@Html.DisplayFor(x => score.TimeBonus)</td>
+                    <td>@Html.DisplayFor(x => score.Multiplier)</td>
+                    <td>@Html.DisplayFor(x => score.DisplayTime)</td>
+                </tr>
+                }
+        </tbody>
     }
 </table>
