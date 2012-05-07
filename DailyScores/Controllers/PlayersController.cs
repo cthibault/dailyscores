@@ -66,8 +66,7 @@ namespace DailyScores.Controllers
                                   NumberOfPlayers = hs.Count(),
                                   GameType = "Hidato"
                               })
-                .Union(
-                    this.Repository.JumbleScores
+                .Union(this.Repository.JumbleScores
                         .Where(js => js.PlayerId != id)
                         .GroupBy(js => js.Date)
                         .Select(js => new MissingScore
@@ -77,6 +76,7 @@ namespace DailyScores.Controllers
                                           GameType = "Jumble"
                                       })
                 )
+                .OrderByDescending(ms => ms.Date)
                 .Take(20);
             
             ViewBag.EmailSubmissions = this.Repository.EmailSubmissions.ToList()
