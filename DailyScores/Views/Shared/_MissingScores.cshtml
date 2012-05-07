@@ -10,7 +10,7 @@
     @foreach (var dateGroup in Model.GroupBy(s => s.Date))
     {
         <tbody class="row-grouping">
-            @foreach (var score in dateGroup.OrderByDescending(s => s.Date).ThenBy(s => s.NumberOfPlayers))
+            @foreach (var score in dateGroup.OrderBy(s => s.Date).ThenBy(s => s.NumberOfPlayers))
             {
                 string style = score.Date == DateTime.Today ? "today" : string.Empty;
                 <tr class="@style">
