@@ -76,7 +76,8 @@ namespace DailyScores.Controllers
                                           NumberOfPlayers = js.Count(),
                                           GameType = "Jumble"
                                       })
-                );
+                )
+                .Take(20);
             
             ViewBag.EmailSubmissions = this.Repository.EmailSubmissions.ToList()
                 .Where(s => player.EmailAddresses.Any(ea => s.From == ea.Address))
