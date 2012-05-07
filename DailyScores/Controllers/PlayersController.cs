@@ -36,6 +36,47 @@ namespace DailyScores.Controllers
                 .OrderByDescending(s => s.JumbleId)
                 .Take(10)
                 .ToList();
+
+            var allOtherHidatoScores = this.Repository.HidatoScores
+                .Where(hs => hs.PlayerId != id)
+                .GroupBy(hs => hs.Date)
+                .Select(hs => new MissingScore
+                              {
+                                  Date = hs.Key,
+                                  NumberOfPlayers = hs.Count(),
+                                  GameType = "Hidato"
+                              });
+
+            var allOtherJumbleScore = this.Repository.JumbleScores
+                .Where(js => js.PlayerId != id)
+                .GroupBy(js => js.Date)
+                .Select(js => new MissingScore
+                              {
+                                  Date = js.Key,
+                                  NumberOfPlayers = js.Count(),
+                                  GameType = "Jumble"
+                              });
+
+            ViewBag.MissingScores = this.Repository.HidatoScores
+                .Where(hs => hs.PlayerId != id)
+                .GroupBy(hs => hs.Date)
+                .Select(hs => new MissingScore
+                              {
+                                  Date = hs.Key,
+                                  NumberOfPlayers = hs.Count(),
+                                  GameType = "Hidato"
+                              })
+                .Union(
+                    this.Repository.JumbleScores
+                        .Where(js => js.PlayerId != id)
+                        .GroupBy(js => js.Date)
+                        .Select(js => new MissingScore
+                                      {
+                                          Date = js.Key,
+                                          NumberOfPlayers = js.Count(),
+                                          GameType = "Jumble"
+                                      })
+                );
             
             ViewBag.EmailSubmissions = this.Repository.EmailSubmissions.ToList()
                 .Where(s => player.EmailAddresses.Any(ea => s.From == ea.Address))

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<DailyScores.Models.MissingScore>
+
+<h2>Missing Scores:</h2>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Game</th>
+        <th># of Players</th>
+    </tr>
+    @foreach (var dateGroup in Model.GroupBy(s => s.Date))
+    {
+        <tbody class="row-grouping">
+            @foreach (var score in dateGroup.OrderByDescending(s => s.Date).ThenBy(s => s.NumberOfPlayers))
+            {
+                string style = score.Date == DateTime.Today ? "today" : string.Empty;
+                <tr class="@style">
+                    <td>@Html.DisplayFor(x => score.DisplayDate)</td>
+                    <td>@Html.DisplayFor(x => score.GameType)</td>
+                    <td>@Html.DisplayFor(x => score.NumberOfPlayers)</td>
+                </tr>
+                }
+        </tbody>
+    }
+</table>
