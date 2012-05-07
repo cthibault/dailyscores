@@ -37,9 +37,9 @@ namespace DailyScores.Controllers
                 .Take(10)
                 .ToList();
 
-            var allOtherHidatoScores = this.Repository.HidatoScores
-                .Where(hs => hs.PlayerId != id)
+            var missingScoresQuery = this.Repository.HidatoScores
                 .GroupBy(hs => hs.Date)
+                .Where(g => g.All(s => s.PlayerId != id))
                 .Select(hs => new MissingScore
                               {
                                   Date = hs.Key,
@@ -47,35 +47,19 @@ namespace DailyScores.Controllers
                                   GameType = "Hidato"
                               });
 
-            var allOtherJumbleScore = this.Repository.JumbleScores
-                .Where(js => js.PlayerId != id)
-                .GroupBy(js => js.Date)
-                .Select(js => new MissingScore
-                              {
-                                  Date = js.Key,
-                                  NumberOfPlayers = js.Count(),
-                                  GameType = "Jumble"
-                              });
+            missingScoresQuery = missingScoresQuery.Union(
+                this.Repository.JumbleScores
+                    .GroupBy(js => js.Date)
+                    .Where(g => g.All(s => s.PlayerId != id))
+                    .Select(js => new MissingScore
+                                  {
+                                      Date = js.Key,
+                                      NumberOfPlayers = js.Count(),
+                                      GameType = "Jumble"
+                                  })
+                );
 
-            ViewBag.MissingScores = this.Repository.HidatoScores
-                .Where(hs => hs.PlayerId != id)
-                .GroupBy(hs => hs.Date)
-                .Select(hs => new MissingScore
-                              {
-                                  Date = hs.Key,
-                                  NumberOfPlayers = hs.Count(),
-                                  GameType = "Hidato"
-                              })
-                .Union(this.Repository.JumbleScores
-                        .Where(js => js.PlayerId != id)
-                        .GroupBy(js => js.Date)
-                        .Select(js => new MissingScore
-                                      {
-                                          Date = js.Key,
-                                          NumberOfPlayers = js.Count(),
-                                          GameType = "Jumble"
-                                      })
-                )
+            ViewBag.MissingScores = missingScoresQuery
                 .OrderByDescending(ms => ms.Date)
                 .Take(20);
             
