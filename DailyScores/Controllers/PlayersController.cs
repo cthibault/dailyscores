@@ -149,9 +149,9 @@ namespace DailyScores.Controllers
                                  Wins = groupedHidatoScores.Count(g => !g.IsTie && g.Best.PlayerId == id),
                                  Losses = groupedHidatoScores.Count(g => !g.IsTie && g.Best.PlayerId != id),
                                  Ties = groupedHidatoScores.Count(g => g.IsTie),
-                                 HighScore = groupedHidatoScores.SelectMany(g => g.Results).Max(s => s.TotalScore),
-                                 LowScore = groupedHidatoScores.SelectMany(g => g.Results).Min(s => s.TotalScore),
-                                 AverageScore = Math.Round(groupedHidatoScores.SelectMany(g => g.Results).Average(s => s.TotalScore), 2)
+                                 HighScore = groupedHidatoScores.SelectMany(g => g.Results).Where(s => s.PlayerId == id).Max(s => s.TotalScore),
+                                 LowScore = groupedHidatoScores.SelectMany(g => g.Results).Where(s => s.PlayerId == id).Min(s => s.TotalScore),
+                                 AverageScore = Math.Round(groupedHidatoScores.SelectMany(g => g.Results).Where(s => s.PlayerId == id).Average(s => s.TotalScore), 2)
                              };
 
             return statistics;
@@ -189,9 +189,9 @@ namespace DailyScores.Controllers
                                  Wins = groupedJumbleScores.Count(g => !g.IsTie && g.Best.PlayerId == id),
                                  Losses = groupedJumbleScores.Count(g => !g.IsTie && g.Best.PlayerId != id),
                                  Ties = groupedJumbleScores.Count(g => g.IsTie),
-                                 HighScore = groupedJumbleScores.SelectMany(g => g.Results).Max(s => s.TotalScore),
-                                 LowScore = groupedJumbleScores.SelectMany(g => g.Results).Min(s => s.TotalScore),
-                                 AverageScore = Math.Round(groupedJumbleScores.SelectMany(g => g.Results).Average(s => s.TotalScore), 2)
+                                 HighScore = groupedJumbleScores.SelectMany(g => g.Results).Where(s => s.PlayerId == id).Max(s => s.TotalScore),
+                                 LowScore = groupedJumbleScores.SelectMany(g => g.Results).Where(s => s.PlayerId == id).Min(s => s.TotalScore),
+                                 AverageScore = Math.Round(groupedJumbleScores.SelectMany(g => g.Results).Where(s => s.PlayerId == id).Average(s => s.TotalScore), 2)
                              };
 
             return statistics;
