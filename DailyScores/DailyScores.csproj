@@ -89,6 +89,7 @@
     <Compile Include="Models\Entities\EmailAddress.cs" />
     <Compile Include="Models\Entities\LogEntry.cs" />
     <Compile Include="Models\MissingScore.cs" />
+    <Compile Include="Models\Statistics.cs" />
     <Compile Include="Parsers\BaseScoreParser.cs" />
     <Compile Include="Parsers\DateParser.cs" />
     <Compile Include="Framework\Requests\EmailRequest.cs" />
@@ -206,6 +207,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_MissingScores.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Statistics.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
