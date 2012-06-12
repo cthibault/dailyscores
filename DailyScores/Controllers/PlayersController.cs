@@ -117,9 +117,12 @@ namespace DailyScores.Controllers
             return list;
         }
 
-        private Statistics GetHidatoStatistics(int id)
+        private Statistics GetHidatoStatistics(int id, DateTime? startDate = null, DateTime? endDate = null)
         {
-            var groupedHidatoScores = from score in this.Repository.HidatoScores
+            var hidatoScoresQuery = this.Repository.HidatoScores.Where(s => (!startDate.HasValue || s.Date >= startDate.Value)
+                                                                            && (!endDate.HasValue || s.Date <= endDate.Value));
+
+            var groupedHidatoScores = from score in hidatoScoresQuery
                                       group score by score.Date
                                       into scoreGroup
                                       let list = scoreGroup.OrderByDescending(s => s.TotalScore).ThenBy(s => s.TimeInSeconds)
@@ -132,15 +135,6 @@ namespace DailyScores.Controllers
                                                  Best = best,
                                                  IsTie = tied.Count() > 1 && tied.Any(s => s.PlayerId == id)
                                              };
-
-            //foreach (var g in groupedHidatoScores)
-            //{
-            //    Debug.Print("{0}: [{1}] {2}", g.Date, g.Best.HidatoId, g.Tie);
-            //    foreach (var s in g.Results)
-            //    {
-            //        Debug.Print(" {0}: {1}, {2}", s.HidatoId, s.TotalScore, s.TimeInSeconds);
-            //    }
-            //}
 
             var statistics = new Statistics
                              {
@@ -157,9 +151,12 @@ namespace DailyScores.Controllers
             return statistics;
         }
 
-        private Statistics GetJumbleStatistics(int id)
+        private Statistics GetJumbleStatistics(int id, DateTime? startDate = null, DateTime? endDate = null)
         {
-            var groupedJumbleScores = from score in this.Repository.JumbleScores
+            var jumbleScoresQuery = this.Repository.JumbleScores.Where(s => (!startDate.HasValue || s.Date >= startDate.Value)
+                                                                            && (!endDate.HasValue || s.Date <= endDate.Value));
+
+            var groupedJumbleScores = from score in jumbleScoresQuery
                                       group score by score.Date
                                       into scoreGroup
                                       let list = scoreGroup.OrderByDescending(s => s.TotalScore).ThenBy(s => s.TimeInSeconds)
@@ -172,15 +169,6 @@ namespace DailyScores.Controllers
                                                  Best = best,
                                                  IsTie = tied.Count() > 1 && tied.Any(s => s.PlayerId == id)
                                              };
-
-            //foreach (var g in groupedHidatoScores)
-            //{
-            //    Debug.Print("{0}: [{1}] {2}", g.Date, g.Best.HidatoId, g.Tie);
-            //    foreach (var s in g.Results)
-            //    {
-            //        Debug.Print(" {0}: {1}, {2}", s.HidatoId, s.TotalScore, s.TimeInSeconds);
-            //    }
-            //}
 
             var statistics = new Statistics
                              {

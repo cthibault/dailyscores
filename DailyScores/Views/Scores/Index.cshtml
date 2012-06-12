@@ -3,7 +3,24 @@
     ViewBag.Title = "Scores";
 }
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tabs").tabs();
+    })
+</script>
+
 <h2>All Recent Scores</h2>
 
-<p>@Html.Partial("_RecentHidatoScores", ViewBag.HidatoScores as IEnumerable<HidatoScore>)</p>
-<p>@Html.Partial("_RecentJumbleScores", ViewBag.JumbleScores as IEnumerable<JumbleScore>)</p>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-hidato">Hidato Scores</a></li>
+        <li><a href="#tabs-jumble">Jumble Scores</a></li>
+    </ul>
+        
+    <div id="tabs-hidato">
+        @Html.Partial("_RecentHidatoScores", ViewBag.HidatoScores as IEnumerable<HidatoScore>)
+    </div>
+    <div id="tabs-jumble">
+        @Html.Partial("_RecentJumbleScores", ViewBag.JumbleScores as IEnumerable<JumbleScore>)
+    </div>
+</div>

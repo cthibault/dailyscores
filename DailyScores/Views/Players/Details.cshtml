@@ -5,10 +5,36 @@
     ViewBag.Title = "Player Details";
 }
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tabs").tabs();
+    })
+</script>
+
 <h2>@Model.Name</h2>
 
-<p>@Html.Partial("_Statistics", ViewBag.Statistics as List<Statistics>)</p>
-<p>@Html.Partial("_RecentHidatoScores", ViewBag.HidatoScores as IEnumerable<HidatoScore>)</p>
-<p>@Html.Partial("_RecentJumbleScores", ViewBag.JumbleScores as IEnumerable<JumbleScore>)</p>
-<p>@Html.Partial("_MissingScores", ViewBag.MissingScores as IEnumerable<MissingScore>)</p>
-<p>@Html.Partial("_RecentEmailSubmissions", ViewBag.EmailSubmissions as IEnumerable<EmailSubmission>)</p>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-statistics">Statistics</a></li>
+        <li><a href="#tabs-hidato">Hidato Scores</a></li>
+        <li><a href="#tabs-jumble">Jumble Scores</a></li>
+        <li><a href="#tabs-missing">Missing Scores</a></li>
+        <li><a href="#tabs-submissions">Email Submissions</a></li>
+    </ul>
+        
+    <div id="tabs-statistics">
+        @Html.Partial("_Statistics", ViewBag.Statistics as List<Statistics>)
+    </div>
+    <div id="tabs-hidato">
+        @Html.Partial("_RecentHidatoScores", ViewBag.HidatoScores as IEnumerable<HidatoScore>)
+    </div>
+    <div id="tabs-jumble">
+        @Html.Partial("_RecentJumbleScores", ViewBag.JumbleScores as IEnumerable<JumbleScore>)
+    </div>
+    <div id="tabs-missing">
+        @Html.Partial("_MissingScores", ViewBag.MissingScores as IEnumerable<MissingScore>)
+    </div>
+    <div id="tabs-submissions">
+        @Html.Partial("_RecentEmailSubmissions", ViewBag.EmailSubmissions as IEnumerable<EmailSubmission>)
+    </div>
+</div>
