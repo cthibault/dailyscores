@@ -26,31 +26,33 @@ namespace DailyScores.Controllers
         {
             Player player = this.Repository.Players.Find(id);
 
-            ViewBag.HidatoScores = this.GetHidatoScores(id, 10);
-            ViewBag.JumbleScores = this.GetJumbleScores(id, 10);
-            ViewBag.MissingScores = this.GetMissingScores(id, 20);
+            var currentSeasonId = this.Repository.GetSeasonId(DateTime.UtcNow.Date);
+
+            ViewBag.HidatoScores = this.GetHidatoScores(id, currentSeasonId, 10);
+            ViewBag.JumbleScores = this.GetJumbleScores(id, currentSeasonId, 10);
+            ViewBag.MissingScores = this.GetMissingScores(id, currentSeasonId, 20);
             ViewBag.EmailSubmissions = this.GetEmailSubmissions(player, 10);
-            ViewBag.Statistics = this.GetStatistics(id);
+            ViewBag.Statistics = this.GetStatistics(id, currentSeasonId);
             
             return View(player);
         }
 
         #region Get Scores
 
-        private List<HidatoScore> GetHidatoScores(int id, int count)
+        private List<HidatoScore> GetHidatoScores(int id, int? seasonId, int count)
         {
             return this.Repository.HidatoScores
-                .Where(s => s.PlayerId == id)
-                .OrderByDescending(s => s.HidatoId)
+                .Where(s => s.PlayerId == id && (seasonId == null || s.SeasonId == seasonId))
+                .OrderByDescending(s => s.Date)
                 .Take(count)
                 .ToList();
         }
 
-        private List<JumbleScore> GetJumbleScores(int id, int count)
+        private List<JumbleScore> GetJumbleScores(int id, int? seasonId, int count)
         {
             return this.Repository.JumbleScores
-                .Where(s => s.PlayerId == id)
-                .OrderByDescending(s => s.JumbleId)
+                .Where(s => s.PlayerId == id && (seasonId == null || s.SeasonId == seasonId))
+                .OrderByDescending(s => s.Date)
                 .Take(count)
                 .ToList();
         }
@@ -59,9 +61,10 @@ namespace DailyScores.Controllers
 
         #region Get Missing Scores
 
-        private List<MissingScore> GetMissingScores(int id, int count)
+        private List<MissingScore> GetMissingScores(int id, int? seasonId, int count)
         {
             var missingScoresQuery = this.Repository.HidatoScores
+                .Where(hs => seasonId == null || hs.SeasonId == seasonId)
                 .GroupBy(hs => hs.Date)
                 .Where(g => g.All(s => s.PlayerId != id))
                 .Select(hs => new MissingScore
@@ -73,6 +76,7 @@ namespace DailyScores.Controllers
 
             missingScoresQuery = missingScoresQuery.Union(
                 this.Repository.JumbleScores
+                    .Where(js => seasonId == null || js.SeasonId == seasonId)
                     .GroupBy(js => js.Date)
                     .Where(g => g.All(s => s.PlayerId != id))
                     .Select(js => new MissingScore
@@ -106,21 +110,20 @@ namespace DailyScores.Controllers
 
         #region Get Statistics
 
-        private List<Statistics> GetStatistics(int id)
+        private List<Statistics> GetStatistics(int id, int? seasonId)
         {
             var list = new List<Statistics>
                        {
-                           this.GetHidatoStatistics(id), 
-                           this.GetJumbleStatistics(id)
+                           this.GetHidatoStatistics(id, seasonId), 
+                           this.GetJumbleStatistics(id, seasonId)
                        };
 
             return list;
         }
 
-        private Statistics GetHidatoStatistics(int id, DateTime? startDate = null, DateTime? endDate = null)
+        private Statistics GetHidatoStatistics(int id, int? seasonId)
         {
-            var hidatoScoresQuery = this.Repository.HidatoScores.Where(s => (!startDate.HasValue || s.Date >= startDate.Value)
-                                                                            && (!endDate.HasValue || s.Date <= endDate.Value));
+            var hidatoScoresQuery = this.Repository.HidatoScores.Where(s => seasonId == null || s.SeasonId == seasonId);
 
             var groupedHidatoScores = from score in hidatoScoresQuery
                                       group score by score.Date
@@ -151,10 +154,9 @@ namespace DailyScores.Controllers
             return statistics;
         }
 
-        private Statistics GetJumbleStatistics(int id, DateTime? startDate = null, DateTime? endDate = null)
+        private Statistics GetJumbleStatistics(int id, int? seasonId)
         {
-            var jumbleScoresQuery = this.Repository.JumbleScores.Where(s => (!startDate.HasValue || s.Date >= startDate.Value)
-                                                                            && (!endDate.HasValue || s.Date <= endDate.Value));
+            var jumbleScoresQuery = this.Repository.JumbleScores.Where(s => seasonId == null || s.SeasonId == seasonId);
 
             var groupedJumbleScores = from score in jumbleScoresQuery
                                       group score by score.Date

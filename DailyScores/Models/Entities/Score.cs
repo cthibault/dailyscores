@@ -21,5 +21,8 @@ namespace DailyScores.Models
 
         public int PlayerId { get; set; }
         public Player Player { get; set; }
+
+        public int? SeasonId { get; set; }
+        public Season Season { get; set; }
     }
 }

@@ -20,8 +20,11 @@ namespace DailyScores.Controllers
         // GET: /Scores/
         public ActionResult Index()
         {
+            var currentSeasonId = this.Repository.GetSeasonId(DateTime.UtcNow.Date);
+
             var hidatoScores = this.Repository.HidatoScores
                     .Include("Player")
+                    .Where(hs => currentSeasonId == 0 || currentSeasonId == hs.SeasonId)
                     .OrderByDescending(s => s.Date)
                     .ThenByDescending(s => s.TotalScore)
                     .ThenBy(s => s.TimeInSeconds)
@@ -30,6 +33,7 @@ namespace DailyScores.Controllers
 
             var jumbleScores = this.Repository.JumbleScores
                     .Include("Player")
+                    .Where(js => currentSeasonId == 0 || currentSeasonId == js.SeasonId)
                     .OrderByDescending(s => s.Date)
                     .ThenByDescending(s => s.TotalScore)
                     .ThenBy(s => s.TimeInSeconds)
@@ -123,6 +127,8 @@ namespace DailyScores.Controllers
 
             if (dateReponse.IsSuccess)
             {
+                var seasonId = this.Repository.GetSeasonId(dateReponse.Value);
+
                 bool hasHidatoEntry = this.Repository.HidatoScores.Any(s => s.PlayerId == player.PlayerId && s.Date == dateReponse.Value);
                 //TODO: REMOVE
                 this.AddToLogGroup("Hidato Score already exists = " + hasHidatoEntry);
@@ -134,6 +140,8 @@ namespace DailyScores.Controllers
                     if (hidatoResponse.IsSuccess)
                     {
                         hidatoResponse.Value.PlayerId = player.PlayerId;
+                        hidatoResponse.Value.SeasonId = seasonId;
+
                         this.Repository.HidatoScores.Add(hidatoResponse.Value);
                         anyChanges = true;
                     }
@@ -150,6 +158,8 @@ namespace DailyScores.Controllers
                     if (jumbleResponse.IsSuccess)
                     {
                         jumbleResponse.Value.PlayerId = player.PlayerId;
+                        jumbleResponse.Value.SeasonId = seasonId;
+
                         this.Repository.JumbleScores.Add(jumbleResponse.Value);
                         anyChanges = true;
                     }

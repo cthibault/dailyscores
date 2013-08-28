@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DailyScores", "DailyScores\DailyScores.csproj", "{CDED26B8-9A4C-4529-930D-DB8C75939551}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DailyScores.Tests", "DailyScores.Tests\DailyScores.Tests.csproj", "{00A487A0-D848-4214-A526-022324692C5A}"

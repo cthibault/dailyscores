@@ -19,10 +19,35 @@ namespace DailyScores.Models
         public DbSet<HidatoScore> HidatoScores { get; set; }
         public DbSet<JumbleScore> JumbleScores { get; set; }
 
+        public DbSet<Season> Seasons { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             base.OnModelCreating(modelBuilder);
         }
+
+        #region Seasons Queries
+        public int? GetSeasonId(DateTime date)
+        {
+            int? seasonId = null;
+
+            try
+            {
+                var season = this.Seasons.SingleOrDefault(s => s.StartDate <= date && s.EndDate >= date);
+
+                if (season != null)
+                {
+                    seasonId = season.SeasonId;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO
+            }
+
+            return seasonId;
+        }
+        #endregion
     }
 }
